@@ -3,7 +3,7 @@ import {NgOptimizedImage} from '@angular/common';
 
 @Component({
   selector: 'app-navbar-prelogin',
-  templateUrl: './navbar.html',
-  styleUrl: './navbar.css',
+  templateUrl: './navbar-prelogin.html',
+  styleUrl: './navbar-prelogin.css',
 })
-export class Navbar {}
+export class NavbarPrelogin {}
