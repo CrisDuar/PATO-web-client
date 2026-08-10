@@ -1,0 +1,80 @@
+@use '@angular/material' as mat;
+
+:root {
+    @include mat.button-overrides((filled-container-color: #D6A79F,
+            filled-label-text-color: black,
+            filled-label-text-size: 16px,
+            filled-label-text-font: ('Rubik', sans-serif)
+            ));
+
+    @include mat.toolbar-overrides((container-background-color: #325754,
+            container-text-color: #ffffff,
+            title-text-font: ('Rubik', sans-serif),
+            title-text-line-height: 1.5,
+            standard-height: 56px,
+        ));
+}
+
+body {
+    overflow: hidden;
+}
+
+.login-title {
+    font-family: 'Rubik', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+    color: #000000;
+}
+
+.card-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+    margin-left: auto;
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+mat-card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0;
+}
+
+mat-card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.custom-card-header {
+    margin-bottom: 30px;
+}
+
+.form-custom {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.input-custom {
+    width: 100%;
+    border-radius: 50px;
+}
+
+.submit-container {
+    width: 100%;
+    margin: 16px auto 0 auto;
+    display: flex;
+}
