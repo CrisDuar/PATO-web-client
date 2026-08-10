@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
+    <meta charset="utf-8">
+    <title>HTML</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <mat-toolbar>
+        <span>
+            <img src="logo_blanco.png" width="90" height="90" alt="Logo">
+        </span>
+
+    </mat-toolbar>
+
+    <div class="card-container">
+        <mat-card appearance="outlined">
+            <mat-card-content>
+                <div class="custom-card-header">
+                    <h1 class="login-title">Iniciar sesión</h1>
+                </div>
+                <form class="form-custom" [formGroup]="formLogin">
+                    <mat-form-field class="input-custom" appearance="outline">
+                        <mat-label>Correo</mat-label>
+                        <input matInput formControlName="email">
+                    </mat-form-field>
+                    <mat-form-field class="input-custom" appearance="outline">
+                        <mat-label>Clave</mat-label>
+                        <input matInput formControlName="password" type="password">
+                    </mat-form-field>
+                    <div class="flex">
+                        <button matButton="filled" class="submit-container" (click)="login()">Iniciar Sesión</button>
+                    </div>
+                    <div class="flex">
+                        <a href="#" class="forgot-password-link">¿Olvidaste tu contraseña?</a>
+                    </div>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</body>
+
+</html>
