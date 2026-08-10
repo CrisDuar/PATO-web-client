@@ -1,9 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import {NavbarPrelogin} from './components/navbar-prelogin/navbar-prelogin';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, NavbarPrelogin],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
