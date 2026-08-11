@@ -29,18 +29,25 @@
           <input type="checkbox" class="accent-purple-500">
           Acepto <a href="#" class="text-teal-500">terminos y condiciones</a>
         </label>
-        @if (passwordsNoCoinciden()) {
-          <p class="text-red-500 text-sm">CONTRASEÑAS NO COINCIDEN</p>
-        }
-        @if (passwordsNoRequisitos()) {
-          <p class="text-red-500 text-sm">CONTRASEÑA NO CUMPLE CON LOS REQUISITOS</p>
-        }
         <button
                 (click)="registrarCuenta()"
                 type="submit"
                 class="bg-teal-400 hover:bg-teal-500 text-black font-semibold rounded-full py-2 mt-2 transition">
           Registrar cuenta
         </button>
+        <mat-form-field>
+          <mat-label>Enter your password</mat-label>
+          <input matInput [type]="hide() ? 'password' : 'text'" />
+          <button
+            matIconButton
+            matSuffix
+            (click)="clickEvent($event)"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide()"
+          >
+            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
 
         <a href="#" class="text-center text-sm font-semibold text-black mt-1">Iniciar sesión</a>
       </form>
