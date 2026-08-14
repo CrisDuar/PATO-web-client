@@ -41,4 +41,17 @@ body {
     button-color: #000000,
     container-color: red,
   ));
+  .campo-password {
+    @include mat.form-field-overrides((
+      outlined-container-shape: 1rem,
+      outlined-outline-color: #d1d5db,
+      outlined-focus-outline-color: #2dd4bf,
+      outlined-hover-outline-color: #2dd4bf,
+      outlined-label-text-color: #6b7280,
+      outlined-focus-label-text-color: #2dd4bf,
+      outlined-input-text-color: #111827,
+      outlined-input-text-placeholder-color: #9ca3af,
+    ));
+  }
 }
+

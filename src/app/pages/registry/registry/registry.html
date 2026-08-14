@@ -1,44 +1,55 @@
 <app-navbar-prelogin></app-navbar-prelogin>
 <div class="main-container flex min-h-screen">
-  <div class="flex-1/3 border-r-2 border-gray-200"></div>
+  <div class="flex-1/2 border-r-2 border-gray-200"></div>
   <div class="flex-1 border-l-0 flex items-center justify-around p-3">
     <div class="w-full max-w-sm">
       <h2 class="text-2xl font-bold mb-6">Registrar cuenta</h2>
       <form class="flex flex-col gap-4">
-        <input type="email" placeholder="Correo electronico"
-               [value]="emailCampo()"
-               (input)="emailCampo.set(txtEmail.value)"
-               (change)="emailCampo.set(txtEmail.value)"
-               #txtEmail
-               class="border rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400">
-        <input type="password" placeholder="Contraseña"
-               [value]="passwordCampo()"
-               (input)="passwordCampo.set(txtPassword.value)"
-               (change)="passwordCampo.set(txtPassword.value)"
-               #txtPassword
-               class="border rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400">
-
-        <input type="password" placeholder="Repetir contraseña"
-               [value]="passwordConfirmacionCampo()"
-               (input)="passwordConfirmacionCampo.set(txtPasswordConfirmation.value)"
-               (change)="passwordConfirmacionCampo.set(txtPasswordConfirmation.value);"
-               #txtPasswordConfirmation
-               class="border rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400">
-
-        <label class="flex items-center gap-2 text-sm text-gray-500">
-          <input type="checkbox" class="accent-purple-500">
-          Acepto <a href="#" class="text-teal-500">terminos y condiciones</a>
-        </label>
-        <button
-                (click)="registrarCuenta()"
-                type="submit"
-                class="bg-teal-400 hover:bg-teal-500 text-black font-semibold rounded-full py-2 mt-2 transition">
-          Registrar cuenta
-        </button>
-        <mat-form-field>
-          <mat-label>Enter your password</mat-label>
-          <input matInput [type]="hide() ? 'password' : 'text'" />
+        <mat-form-field appearance="outline" class="campo-password py-2 text-sm focus:outline-none focus:ring-2">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            placeholder="persona@pato.com"
+            [value]="emailCampo()"
+            (input)="emailCampo.set(txtEmail.value)"
+            (change)="emailCampo.set(txtEmail.value)"
+            #txtEmail
+            required
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="campo-password">
+          <mat-label>Contraseña</mat-label>
+          <input
+            required
+            [value]="passwordCampo()"
+            (input)="passwordCampo.set(txtPassword.value)"
+            (change)="passwordCampo.set(txtPassword.value)"
+            #txtPassword
+            matInput [type]="hide2() ? 'password' : 'text'" />
           <button
+            type="button"
+            class="button-icon"
+            matIconButton
+            matSuffix
+            (click)="clickEvent2($event)"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide2()"
+          >
+            <mat-icon>{{hide2() ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="campo-password py-2 text-sm focus:outline-none focus:ring-2">
+          <mat-label>Repetir contraseña</mat-label>
+          <input
+            required
+            [value]="passwordConfirmacionCampo()"
+            (input)="passwordConfirmacionCampo.set(txtPasswordConfirmation.value)"
+            (change)="passwordConfirmacionCampo.set(txtPasswordConfirmation.value);"
+            #txtPasswordConfirmation
+            matInput [type]="hide() ? 'password' : 'text'" />
+          <button
+            type="button"
+            class="button-icon"
             matIconButton
             matSuffix
             (click)="clickEvent($event)"
@@ -49,7 +60,21 @@
           </button>
         </mat-form-field>
 
-        <a href="#" class="text-center text-sm font-semibold text-black mt-1">Iniciar sesión</a>
+        <label class="flex items-center gap-2 text-sm text-gray-500">
+          <input
+            [checked]="checkBox()"
+            (change)="checkBox.set(booleanValueCheckbox.checked)"
+            #booleanValueCheckbox
+            type="checkbox" class="accent-purple-500">
+          Acepto <a href="#" class="text-teal-500">terminos y condiciones</a>
+        </label>
+        <button
+                (click)="registrarCuenta()"
+                type="button"
+                class="bg-teal-400 hover:bg-teal-500 text-black font-semibold rounded-full py-2 mt-2 transition">
+          Registrar cuenta
+        </button>
+        <a routerLink="/" class="text-center text-sm font-semibold text-black mt-1">Iniciar sesión</a>
       </form>
     </div>
   </div>
