@@ -54,3 +54,10 @@ body {
     ));
   }
 }
+:root {
+  @include mat.dialog-overrides((
+    container-color: #2dd4bf,
+    container-min-width: 25rem,
+
+  ))
+}
