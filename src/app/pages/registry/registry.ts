@@ -1,5 +1,5 @@
 import { Component, signal, computed, inject } from '@angular/core';
-import { NavbarPrelogin } from '../../../components/navbar-prelogin/navbar-prelogin';
+import { NavbarPrelogin } from '../../components/navbar-prelogin/navbar-prelogin';
 import { Router, RouterLink } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
@@ -7,6 +7,8 @@ import { MatInput } from '@angular/material/input';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog'
+import { ModalTyc } from '../../components/modal-tyc/modal-tyc.component'
 
 @Component({
   selector: 'app-registry',
@@ -25,7 +27,14 @@ import { ReactiveFormsModule } from '@angular/forms';
   styleUrl: './registry.css',
 })
 export class Registry {
-  constructor(private router: Router) {}
+  //constructor(private router: Router) {}
+  constructor(private __matDialog: MatDialog) {}
+  abrirModal(): void {
+    this.__matDialog.open(ModalTyc, {
+      width: '500px',
+      height: '500px',
+    });
+  }
   private _snackBar = inject(MatSnackBar);
   PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
   emailCampo = signal('');
