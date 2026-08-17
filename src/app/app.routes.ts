@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import {Registry} from './pages/registry/registry/registry';
+import {Registry} from './pages/registry/registry';
 import {Principal} from './pages/principal/principal';
 import { Login } from './auth/login/login';
 import { MapViewer } from './pages/map-viewer/map-viewer';

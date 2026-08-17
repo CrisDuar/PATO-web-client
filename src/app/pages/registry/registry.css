@@ -1,0 +1,10 @@
+.error-snackbar {
+  --mat-button-filled-container-color: white;
+}
+.button-icon{
+  margin-left: -3rem;
+}
+.campo-password{
+  margin-top: -1rem;
+  margin-bottom: -1rem;
+}
