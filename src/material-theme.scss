@@ -63,13 +63,11 @@ body {
 :root {
   @include mat.toolbar-overrides((
     container-background-color: #325754
-
   ));
 
   @include mat.icon-overrides((
     color: white,
   ));
-
   @include mat.menu-overrides((
     container-shape: 12px,
     item-leading-spacing: 30px,
