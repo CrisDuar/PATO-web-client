@@ -10,7 +10,7 @@ import { PredictionViewer } from './pages/prediction-viewer/prediction-viewer';
 export const routes: Routes = [
   {path:'map',component: Principal},
   {path:'register', component: Registry},
-  {path: '', component: Navbar},
+  {path: 'login', component: Login},
   {path: 'map-viewer', component: MapViewer},
   {path: 'chat-bot', component: ChatBOT},
   {path: 'prediction-viewer', component: PredictionViewer},
