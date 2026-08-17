@@ -8,9 +8,8 @@ import { ChatBOT } from './pages/chat-bot/chat-bot';
 import { PredictionViewer } from './pages/prediction-viewer/prediction-viewer';
 
 export const routes: Routes = [
-  {path:'map',component: Principal},
   {path:'register', component: Registry},
-  {path: 'login', component: Login},
+  {path: '', component: Login},
   {path: 'map-viewer', component: MapViewer},
   {path: 'chat-bot', component: ChatBOT},
   {path: 'prediction-viewer', component: PredictionViewer},
