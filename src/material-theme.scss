@@ -60,4 +60,25 @@ body {
     container-min-width: 25rem,
 
   ))
+
+:root {
+  @include mat.toolbar-overrides((
+    container-background-color: #325754
+
+  ));
+
+  @include mat.icon-overrides((
+    color: white,
+  ));
+
+  @include mat.menu-overrides((
+    container-shape: 12px,
+    item-leading-spacing: 30px,
+    item-trailing-spacing: 30px,
+    container-color: #264240,
+    item-hover-state-layer-color: #4b7272,
+    item-label-text-font: 'Inter Light 300',
+    item-label-text-color: white
+  ));
+
 }

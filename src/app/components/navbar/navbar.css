@@ -1,0 +1,25 @@
+.spacer {
+    flex: 1;
+}
+
+.nav-container {
+    display: flex;
+    gap: 30px;
+
+    a[mat-button]{
+        color: white;
+        background-color: #325754;
+        font-family: 'Rubik', sans-serif
+    }
+    a[mat-button]:hover {
+        background-color: #4a7275;
+        font-family: 'Rubik', sans-serif
+    }
+}
+
+mat-icon {
+    transform: scale(1.6);
+}
+
+
+
