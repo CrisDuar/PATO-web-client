@@ -20,6 +20,10 @@
 mat-icon {
     transform: scale(1.6);
 }
+.active {
+  background-color: #ffffff !important;
+  color: black !important;
+}
 
 
 

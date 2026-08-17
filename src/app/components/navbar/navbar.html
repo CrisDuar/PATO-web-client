@@ -6,9 +6,9 @@
     <span class="spacer"></span>
 
     <div class="nav-container">
-        <a mat-button routerLink="/map-viewer">Mapa</a>
-        <a mat-button routerLink="/chat-bot">ChatBOT</a>
-        <a mat-button routerLink="/prediction-viewer">Predicciones</a>
+        <a mat-button routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/map-viewer">Mapa</a>
+        <a mat-button routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/chat-bot">ChatBOT</a>
+        <a mat-button routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/prediction-viewer">Predicciones</a>
 
     </div>
 
@@ -28,3 +28,4 @@
 
 
 </mat-toolbar>
+</div>

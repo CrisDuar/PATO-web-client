@@ -4,7 +4,7 @@ import {NavbarPrelogin} from './components/navbar-prelogin/navbar-prelogin';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavbarPrelogin],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
