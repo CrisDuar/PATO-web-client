@@ -13,7 +13,7 @@ html {
         primary: mat.$azure-palette,
         tertiary: mat.$blue-palette,
       ),
-      typography: Roboto,
+      typography: Inter,
       density: 0,
     )
   );
@@ -43,18 +43,44 @@ body {
 
   ));
 
-  @include mat.icon-overrides((
-    color: white,
-  ));
-
   @include mat.menu-overrides((
     container-shape: 12px,
     item-leading-spacing: 30px,
     item-trailing-spacing: 30px,
     container-color: #264240,
     item-hover-state-layer-color: #4b7272,
-    item-label-text-font: 'Inter Light 300',
+    item-label-text-weight: 300,
     item-label-text-color: white
   ));
 
+  @include mat.form-field-overrides((
+    outlined-focus-outline-color: #68c2c5,
+    outlined-container-shape: 14px
+    
+  ));
+
 }
+
+.navbar-icon{
+  @include mat.icon-overrides((
+    color: white,
+  ));
+}
+
+.edit-profile-icon{
+  @include mat.icon-overrides((
+    color: rgb(53, 187, 192),
+  ));
+}
+
+.list-edit-profile{
+  display: flex !important;
+  flex-direction: column;
+  gap: 12px;
+
+  @include mat.list-overrides((
+    list-item-container-shape: 15px
+  ));
+
+}
+

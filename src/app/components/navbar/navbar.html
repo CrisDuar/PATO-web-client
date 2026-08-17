@@ -17,12 +17,12 @@
 
     <button matIconButton [matMenuTriggerFor]="menu">
         <div class="account-icon">
-            <mat-icon aria-label="Account icon" fontIcon="account_circle"></mat-icon>
+            <mat-icon class="navbar-icon" aria-label="Account icon" fontIcon="account_circle"></mat-icon>
         </div>
     </button>
 
     <mat-menu #menu="matMenu">
-        <button mat-menu-item>Editar perfil</button>
+        <button mat-menu-item (click)="openEditProfile()">Datos personales</button>
         <button mat-menu-item>Cerrar sesión</button>
     </mat-menu>
 
