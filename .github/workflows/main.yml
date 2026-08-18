@@ -1,3 +1,6 @@
+# Only for development porposes. The docker image is not needed to build the project.
+# However, you can use it to run the web client locally.
+
 name: Test and push container
 
 on:
