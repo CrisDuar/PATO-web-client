@@ -23,7 +23,6 @@ export class Navbar {
   openEditProfile(): void {
     const dialogRef = this.editProfile.open(EditProfile, {
       width: '420px',
-      data: {name: this.name(), animal: this.animal()},
   });
 
   }
