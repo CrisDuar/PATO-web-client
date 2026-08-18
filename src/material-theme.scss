@@ -69,10 +69,17 @@ body {
   ));
 
   @include mat.form-field-overrides((
-    outlined-focus-outline-color: #68c2c5,
+    outlined-focus-label-text-color: #33adb1,
+    outlined-focus-outline-color: #33adb1,
     outlined-container-shape: 14px
     
   ));
+
+  @include mat.button-overrides((
+    filled-container-color: #D6A79F,
+    filled-label-text-color: black
+  ));
+
 }
 
 .navbar-icon{
@@ -96,5 +103,14 @@ body {
     list-item-container-shape: 15px
   ));
 
+}
+
+.container-btn-action {
+    width: 100%;
+  display: flex;
+}
+.container-btn-action button{
+    width: 100%;
+  justify-content: center;
 }
 

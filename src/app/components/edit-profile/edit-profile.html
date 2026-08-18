@@ -1,27 +1,77 @@
-<div>
-    <div class="tittle-bar">
-        <h2 mat-dialog-title cdkFocusInitial class="tittle">Datos personales</h2>
-        <button mat-icon-button mat-dialog-close aria-label="Cerrar ventana">
-            <mat-icon >close</mat-icon>
-        </button>
-    </div>
-    <mat-dialog-content>
-        <mat-action-list class="list-edit-profile">
-            <button mat-list-item>
-                <mat-icon matListItemIcon>assignment_ind</mat-icon>
-                <div matListItemTitle class="item-title">Nombre</div>
-                <div matListItemLine class="item-value">Daryl Dixon</div>
-            </button>
-            <button mat-list-item>
-                <mat-icon matListItemIcon>email</mat-icon>
-                <div matListItemTitle class="item-title">Correo</div>
-                <div matListItemLine class="item-value">ilovetheouls@gmail.com</div>
-            </button>
-            <button mat-list-item>
-                <mat-icon matListItemIcon>vpn_key</mat-icon>
-                <div matListItemTitle class="item-title">Contraseña</div>
-                <div matListItemLine class="item-value">********</div>
-            </button>
-        </mat-action-list>
-    </mat-dialog-content>
+<!--Encabezado-->
+<div class="tittle-bar">
+    @if (currentView !== 'menu') {
+    <button mat-icon-button (click)="goBack()" aria-label="Retroceder">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    }
+
+    <button class="btn-close" mat-icon-button mat-dialog-close aria-label="Cerrar ventana">
+        <mat-icon>close</mat-icon>
+    </button>
 </div>
+
+<!-- Vistas -->
+@if (currentView == 'menu') {
+<h2 mat-dialog-title cdkFocusInitial>Datos personales</h2>
+}
+
+@if (currentView == 'edit-name') {
+<h2 mat-dialog-title cdkFocusInitial>Editar nombre</h2>
+}
+
+@if (currentView == 'edit-email') {
+<h2 mat-dialog-title cdkFocusInitial>Editar correo</h2>
+}
+
+@if (currentView == 'edit-password') {
+<h2 mat-dialog-title cdkFocusInitial>Editar contraseña</h2>
+}
+
+<mat-dialog-content>
+
+    @switch (currentView) {
+    @case ('menu') {
+    <!--Vista 1: Menú principal-->
+    <mat-action-list class="list-edit-profile">
+        <button mat-list-item (click)="setView('edit-name')">
+            <mat-icon matListItemIcon>assignment_ind</mat-icon>
+            <div matListItemTitle class="item-title">Nombre</div>
+            <div matListItemLine class="item-value">Daryl Dixon</div>
+        </button>
+        <button mat-list-item (click)="setView('edit-email')">
+            <mat-icon matListItemIcon>email</mat-icon>
+            <div matListItemTitle class="item-title">Correo</div>
+            <div matListItemLine class="item-value">ilovetheouls@gmail.com</div>
+        </button>
+        <button mat-list-item (click)="setView('edit-password')">
+            <mat-icon matListItemIcon>vpn_key</mat-icon>
+            <div matListItemTitle class="item-title">Contraseña</div>
+            <div matListItemLine class="item-value">********</div>
+        </button>
+    </mat-action-list>
+    }
+
+    @case ('edit-name') {
+    <app-edit-name>
+        
+    </app-edit-name>
+
+    }
+
+    @case ('edit-email') {
+    <app-edit-email>
+        
+    </app-edit-email>
+    }
+
+    @case ('edit-password') {
+    <app-edit-password>
+
+    </app-edit-password>
+    }
+
+    @default never;
+    }
+
+</mat-dialog-content>

@@ -3,20 +3,17 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 8px 20px 8px 20px;
+    padding: 10px 20px 0px 20px;
+    margin-bottom: 0;
+}
 
-    .title {
-        margin: 0;
-        padding: 0;
-        line-height: 1;
-        display: inline-block;
-    }
-
+.btn-close {
+    margin-left: auto;
 }
 
 mat-dialog-content {
-    padding-top: 0 !important;
-    margin-top: 0 !important;
+    padding-top: 0;
+    margin-top: 0;
 }
 
 
