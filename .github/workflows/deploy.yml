@@ -6,17 +6,25 @@ on:
         types:
         - completed
     workflow_dispatch:
-
+      
 jobs:
 
   deploy-on-server:
     runs-on: self-hosted
 
+    container: 
+      image: node:26-alpine
+      volumes:
+        - "/var/www/html/:/host"
+
     steps:
+      - name: build
+        uses: actions/checkout@v4
+
       - name: Execute docker compose
-        env:
-          WORK_DIR: ${{ secrets.WORK_DIR }}
         run: |
-          cd $WORK_DIR
-          docker compose pull
-          docker compose up -d
+          npm install
+          npm run build
+            
+      - name: Deploy to Nginx
+        run: cp -r -f dist/PATO-web-client/browser/* /host/
