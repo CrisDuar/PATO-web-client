@@ -10,7 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-navbar',
-  imports: [MatButtonModule, MatToolbarModule, MatIconModule, RouterLink, RouterModule, MatMenuModule, EditProfile],
+  imports: [MatButtonModule, MatToolbarModule, MatIconModule, RouterLink, RouterModule, MatMenuModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })

@@ -1,0 +1,13 @@
+<mat-action-list class="list-edit-profile">
+    <mat-form-field appearance="outline">
+        <input matInput type="text" [formControl]="emailControl" [formControl]="emailControl" required />
+
+        @if (emailControl.hasError('required')) {
+        <mat-error>Introduce un correo válido</mat-error>
+        }
+
+    </mat-form-field>
+    <div class="container-btn-action">
+        <button [disabled]="emailControl.invalid" class="btn-action" matButton="filled" cdkFocusInitial>Guardar</button>
+    </div>
+</mat-action-list>

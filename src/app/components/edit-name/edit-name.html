@@ -1,0 +1,16 @@
+<mat-action-list class="list-edit-profile">
+    <mat-form-field appearance="outline">
+        <input matInput type="text" [formControl]="nameControl" [formControl]="nameControl" required />
+
+        @if (nameControl.hasError('required')) {
+        <mat-error>El nombre es obligatorio</mat-error>
+        }
+        @if (nameControl.hasError('minlength')) {
+        <mat-error>Debe tener al menos 3 caracteres</mat-error>
+        }
+
+    </mat-form-field>
+    <div class="container-btn-action">
+        <button [disabled]="nameControl.invalid" class="btn-action" matButton="filled" cdkFocusInitial>Guardar</button>
+    </div>
+</mat-action-list>
