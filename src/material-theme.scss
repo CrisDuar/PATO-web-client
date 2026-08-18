@@ -80,6 +80,12 @@ body {
     filled-label-text-color: black
   ));
 
+  @include mat.snack-bar-overrides((
+    button-color: rgb(53, 187, 192),
+    container-color: white,
+    supporting-text-color: black,
+  ));
+
 }
 
 .navbar-icon{
