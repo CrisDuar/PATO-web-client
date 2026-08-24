@@ -1,14 +1,15 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, signal } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginRequest } from '../../interfaces/LoginRequest';
 
-import {MatCardModule} from '@angular/material/card';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
-import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule, MatFormFieldControl } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { NavbarPrelogin } from '../../components/navbar-prelogin/navbar-prelogin';
 import { Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +21,7 @@ import { Router } from '@angular/router';
     MatToolbarModule,
     ReactiveFormsModule,
     NavbarPrelogin,
+    MatIconModule
   ],
   templateUrl: './login.html',
   styleUrl: './login.scss',
@@ -27,22 +29,24 @@ import { Router } from '@angular/router';
 export class Login {
   public formBuild = inject(FormBuilder);
 
-  public formLogin: FormGroup = this.formBuild.group({
-    email: ['', Validators.required],
-    password: ['', Validators.required],
-  });
   constructor(private router: Router) { }
+
+  readonly emailControl = new FormControl('', [
+    Validators.required, Validators.email
+  ]);
+
+  readonly passwordControl = new FormControl('', [Validators.required]);
 
   login() {
     this.router.navigate(['/map-viewer']).then((success) => {
       console.log('Navegación:', success);
     });
-    //if (this.formLogin.invalid) return;
-
-    const object: LoginRequest = {
-      email: this.formLogin.value.email,
-      password: this.formLogin.value.password,
-    };
-
   }
+
+  hide = signal(true);
+    clickEvent(event: MouseEvent) {
+      this.hide.set(!this.hide());
+      event.stopPropagation();
+    }
+
 }
