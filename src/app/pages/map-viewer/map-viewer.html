@@ -1,1 +1,11 @@
-<app-navbar></app-navbar>
+<div class="flex flex-col h-screen">
+  <app-navbar></app-navbar>
+
+  <div class="flex flex-1 overflow-hidden">
+    <app-sidebar-map (locationChange)="onLocationChange($event)"></app-sidebar-map>
+
+    <main class="flex-1 relative bg-gray-100">
+      <app-map-element [location]="currentLocation()"></app-map-element>
+    </main>
+  </div>
+</div>
