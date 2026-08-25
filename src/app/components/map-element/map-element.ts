@@ -50,10 +50,12 @@ export class MapElementComponent implements OnDestroy {
 
   constructor(private injector: Injector) {
     afterNextRender(async () => {
-      this.leaflet = await import('leaflet');
+      const leafletModule: any = await import('leaflet');
+      // En prod, a veces viene como { default: L }, en dev viene como L directo.
+      this.leaflet = leafletModule.default ?? leafletModule;
+
       this.initMap();
 
-      // Efecto que reacciona a cambios en el input `location`
       effect(
         () => {
           const loc = this.location();
