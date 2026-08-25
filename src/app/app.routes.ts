@@ -6,10 +6,12 @@ import { MapViewer } from './pages/map-viewer/map-viewer';
 import { Navbar } from './components/navbar/navbar';
 import { ChatBOT } from './pages/chat-bot/chat-bot';
 import { PredictionViewer } from './pages/prediction-viewer/prediction-viewer';
+import { Dashboard } from './models/dashboard/dashboard';
+import { LATDashboard } from './pages/lat-dashboard/lat-dashboard';
 
 export const routes: Routes = [
   {path:'register', component: Registry},
-  {path: '', component: Login},
+  {path: '', component: LATDashboard},
   {path: 'map-viewer', component: MapViewer},
   {path: 'chat-bot', component: ChatBOT},
   {path: 'prediction-viewer', component: PredictionViewer},

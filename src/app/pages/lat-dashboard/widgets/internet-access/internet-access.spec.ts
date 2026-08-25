@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LAPDashboard } from './lap-dashboard';
+import { InternetAccess } from './internet-access';
 
-describe('LAPDashboard', () => {
-  let component: LAPDashboard;
-  let fixture: ComponentFixture<LAPDashboard>;
+describe('InternetAccess', () => {
+  let component: InternetAccess;
+  let fixture: ComponentFixture<InternetAccess>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LAPDashboard],
+      imports: [InternetAccess],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LAPDashboard);
+    fixture = TestBed.createComponent(InternetAccess);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

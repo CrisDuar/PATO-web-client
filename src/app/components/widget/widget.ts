@@ -1,4 +1,5 @@
 import { Component, input } from '@angular/core';
+import { WidgetItem } from '../../models/dashboard/dashboard';
 
 @Component({
   selector: 'app-widget',
@@ -7,5 +8,5 @@ import { Component, input } from '@angular/core';
   styleUrl: './widget.css',
 })
 export class Widget {
-  data = input.required<>
+  data = input.required<WidgetItem>();
 }

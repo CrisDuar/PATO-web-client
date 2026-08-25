@@ -8,7 +8,7 @@ import { Component, Type } from '@angular/core';
 })
 export class Dashboard {}
 
-export interface Widget {
+export interface WidgetItem {
   id: number;
   label: string;
   content: Type<unknown>;
