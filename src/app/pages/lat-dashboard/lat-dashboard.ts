@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { WidgetItem } from '../../models/dashboard/dashboard';
 import { Widget } from '../../components/widget/widget';
 import { DashboardService } from '../../services/dashboard';
@@ -11,6 +11,6 @@ import { DashboardService } from '../../services/dashboard';
   styleUrl: './lat-dashboard.css',
 })
 export class LATDashboard {
-  
+  store = inject(DashboardService);
 
 }
