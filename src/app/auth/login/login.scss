@@ -4,8 +4,7 @@
     @include mat.button-overrides((filled-container-color: #D6A79F,
             filled-label-text-color: black,
             filled-label-text-size: 16px,
-            filled-label-text-font: ('Rubik', sans-serif)
-            ));
+            filled-label-text-font: ('Rubik', sans-serif)));
 
     @include mat.toolbar-overrides((container-background-color: #325754,
             container-text-color: #ffffff,
@@ -82,4 +81,43 @@ mat-card-content {
 
 .spacer {
     flex: 1;
+}
+
+
+.custom-card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    text-align: left;         
+    margin-bottom: 1.5rem;
+}
+
+.login-title {
+    font-size: 1.875rem;
+    font-weight: 800;
+    color: #171717;
+    margin-bottom: 0.5rem;
+}
+
+.subtext-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; 
+    gap: 0.375rem;
+    font-size: 0.875rem;
+}
+
+.subtext-container p {
+    color: #525252;
+    margin: 0;
+}
+
+.forgot-password-link {
+    color: #115e59;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.forgot-password-link:hover {
+    text-decoration: underline;
 }

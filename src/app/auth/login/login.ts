@@ -8,8 +8,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NavbarPrelogin } from '../../components/navbar-prelogin/navbar-prelogin';
-import { Router } from '@angular/router';
+import { Route, Router, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { HttpClient } from '@angular/common/http';
+import { error } from 'console';
+import { Auth } from '../../core/services/auth';
 
 @Component({
   selector: 'app-login',
@@ -21,15 +24,17 @@ import { MatIconModule } from '@angular/material/icon';
     MatToolbarModule,
     ReactiveFormsModule,
     NavbarPrelogin,
-    MatIconModule
+    MatIconModule,
+    RouterLink
   ],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
 export class Login {
-  public formBuild = inject(FormBuilder);
+  private router = inject(Router);
+  private auth = inject(Auth);
 
-  constructor(private router: Router) { }
+  public formBuild = inject(FormBuilder);
 
   readonly emailControl = new FormControl('', [
     Validators.required, Validators.email
@@ -37,16 +42,28 @@ export class Login {
 
   readonly passwordControl = new FormControl('', [Validators.required]);
 
-  login() {
-    this.router.navigate(['/map-viewer']).then((success) => {
-      console.log('Navegación:', success);
-    });
+  hide = signal(true);
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
   }
 
-  hide = signal(true);
-    clickEvent(event: MouseEvent) {
-      this.hide.set(!this.hide());
-      event.stopPropagation();
+  login() {
+    if (this.emailControl.invalid || this.passwordControl.invalid) {
+      this.emailControl.markAsTouched();
+      this.passwordControl.markAsTouched();
+      return;
     }
+
+    const email = this.emailControl.value!;
+    const password = this.passwordControl.value!;
+
+    this.auth.login(email, password).subscribe({
+      next: () => this.router.navigate(['/map-viewer']),
+      error: (err) => console.error('Login failed', err)
+    })
+
+  }
+
 
 }

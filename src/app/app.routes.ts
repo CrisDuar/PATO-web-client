@@ -6,9 +6,11 @@ import { MapViewer } from './pages/map-viewer/map-viewer';
 import { Navbar } from './components/navbar/navbar';
 import { ChatBOT } from './pages/chat-bot/chat-bot';
 import { PredictionViewer } from './pages/prediction-viewer/prediction-viewer';
+import { FindAccount } from './pages/account-recovery/account-recovery';
 
 export const routes: Routes = [
   {path:'register', component: Registry},
+  {path:'accountRecovery', component: FindAccount},
   {path: '', component: Login},
   {path: 'map-viewer', component: MapViewer},
   {path: 'chat-bot', component: ChatBOT},
