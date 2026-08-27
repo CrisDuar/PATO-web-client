@@ -1,6 +1,9 @@
-import {Component, signal} from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PassRecoveryService } from '../../core/services/pass-recovery.service';
+import { Router } from 'express';
+import { AccountRecoveryService } from '../../core/services/account-recovery.service';
 
 @Component({
   selector: 'app-find-account',
@@ -9,9 +12,20 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './account-recovery.html'
 })
 export class FindAccount {
-  email = signal("");
+  email: string = ''; // Debe existir esta variable
+
+  private recoveryService = inject(AccountRecoveryService);
 
   onSubmit() {
-    console.log('Buscando cuenta con email:', this.email);
+    if (!this.email) return;
+
+    this.recoveryService.registry(this.email).subscribe({
+      next: (res) => {
+        console.log('Petición exitosa:', res);
+      },
+      error: (err) => {
+        console.error('Error en la petición:', err);
+      }
+    });
   }
 }

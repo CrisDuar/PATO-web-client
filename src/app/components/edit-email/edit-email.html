@@ -1,6 +1,6 @@
 <mat-action-list class="list-edit-profile">
     <mat-form-field appearance="outline">
-        <input matInput type="text" [formControl]="emailControl" [formControl]="emailControl" required />
+        <input matInput type="text" [formControl]="emailControl" required />
 
         @if (emailControl.hasError('required')) {
         <mat-error>Es obligatorio llenar el campo</mat-error>

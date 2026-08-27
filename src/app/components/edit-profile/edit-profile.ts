@@ -20,6 +20,9 @@ import { EditPassword } from '../edit-password/edit-password';
 import { CdkAriaLive } from "../../../../node_modules/@angular/cdk/types/_a11y-module-chunk";
 import { EditName } from '../edit-name/edit-name';
 import { EditEmail } from '../edit-email/edit-email';
+import { UserService } from '../../core/services/user.service';
+import { User } from '../../interfaces/user.interface';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 type ViewMode = 'menu' | 'edit-name' | 'edit-email' | 'edit-password';
@@ -49,6 +52,25 @@ type ViewMode = 'menu' | 'edit-name' | 'edit-email' | 'edit-password';
 
 export class EditProfile {
   readonly dialogRef = inject(MatDialogRef<EditProfile>);
+  private userService = inject(UserService);
+  private snackBar = inject(MatSnackBar);
+
+  currentUser = signal<any>(null);
+
+  ngOnInit(): void {
+    this.loadUserProfile();
+  }
+
+  loadUserProfile(): void {
+    this.userService.getProfile().subscribe({
+      next: (data) => {
+        console.log('Objeto recibido del backend:', data);
+        this.currentUser.set(data); // <-- Actualiza la Signal
+      },
+      error: (err) => console.error(err)
+    });
+  }
+  
   currentView: ViewMode = 'menu';
 
   // Cambiar a la vista indicada

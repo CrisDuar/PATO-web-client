@@ -44,3 +44,4 @@ __screenshots__/
 Thumbs.db
 .secrets
 **/deploySSH.yml
+src/environments/environment.development.ts
