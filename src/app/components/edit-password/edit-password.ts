@@ -16,6 +16,7 @@ import {
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { merge } from 'rxjs';
+import { UserService } from '../../core/services/user.service';
 
 
 @Component({
@@ -37,23 +38,27 @@ export class EditPassword {
   private snackBar = inject(MatSnackBar);
   private dialogRef = inject(MatDialogRef<EditProfile>);
   errorMessage = signal('');
+  private userService = inject(UserService);
 
-  readonly currentPassword = new FormControl('', [Validators.required]);
+  readonly currentPassword = new FormControl('', { nonNullable: true, validators: [Validators.required] });
 
-  readonly newPassword = new FormControl('', [
-    Validators.required,
-    Validators.minLength(8),
-    Validators.pattern(/(?=.*[A-Z])(?=.*[0-9])/),
-  ]);
+  readonly newPassword = new FormControl('', {
+    nonNullable: true,
+    validators: [
+      Validators.required,
+      Validators.minLength(8),
+      Validators.pattern(/(?=.*[A-Z])(?=.*[0-9])/)
+    ]
+  });
 
-  readonly confirmPassword = new FormControl('', [Validators.required]);
+  readonly confirmPassword = new FormControl('', { nonNullable: true, validators: [Validators.required] });
 
   constructor() {
     merge(this.newPassword.statusChanges, this.newPassword.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
   }
-    
+
   onSave(): void {
     // Si ninguno es válido
     if (this.currentPassword.invalid || this.newPassword.invalid || this.confirmPassword.invalid) {
@@ -61,22 +66,42 @@ export class EditPassword {
       return;
     }
 
-    
+    const payload = {
+      current_password: this.currentPassword.value,
+      new_password: this.newPassword.value,
+      confirm_new_password: this.confirmPassword.value
+    };
+
+    this.userService.updatePassword(payload).subscribe({
+      next: () => {
+        // Bocadillo de contraseña actualizada con éxito
+        this.snackBar.open('¡Contraseña actualizada correctamente!', 'Cerrar', {
+          duration: 3000,
+          verticalPosition: 'bottom',
+        });
+        this.dialogRef.close(true);
+      },
+      error: (err) => {
+        console.error('Error al cambiar la cotraseña', err);
+        this.snackBar.open('Error al cambiar la contraseña', 'Cerrar', {
+          duration: 3000,
+          verticalPosition: 'top',
+        });
+      }
+
+
+    })
+
+
     if (this.newPassword.value !== this.confirmPassword.value) {
-      this.snackBar.open('Las contraseñas no coinciden', undefined, {
+      this.snackBar.open('Las contraseñas no coinciden', 'Cerrar', {
         duration: 3000,
         verticalPosition: 'top',
       });
       return;
     }
 
-    // Bocadillo de contraseña actualizada con éxito
-    this.snackBar.open('¡Contraseña actualizada correctamente!', 'Cerrar', {
-      duration: 3000,
-      verticalPosition: 'bottom',
-    });
 
-    this.dialogRef.close(true);
   }
 
   // Mensajes de error

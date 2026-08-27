@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Service, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { finalize, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment.development';
 
 
 @Service()
 export class Auth {
     private LOGIN_URL = `${environment.apiAddr}/api/users/login`;
+    private LOGOUT_URL = `${environment.apiAddr}/api/users/logout`;
     private tokenKey = 'authToken';
 
     private httpClient = inject(HttpClient);
@@ -46,8 +47,13 @@ export class Auth {
     }
 
     logout(): void {
-        localStorage.removeItem(this.tokenKey);
-        this.router.navigate(['/login']);
+        this.httpClient.post(this.LOGOUT_URL, {}).pipe(
+            finalize(() => {
+                localStorage.removeItem(this.tokenKey);
+                this.router.navigate(['']);
+            })
+        ).subscribe();
+
     }
 
 }

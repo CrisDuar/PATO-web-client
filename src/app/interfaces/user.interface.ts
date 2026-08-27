@@ -6,16 +6,17 @@ export interface User {
 }
 
 
-export interface UpdateEmailDto {
+export interface UpdateEmail {
     new_email: string;
     password: string;
 }
 
-export interface UpdateNameDto {
+export interface UpdateName {
     name: string;
 }
 
-export interface UpdatePasswordDto {
+export interface UpdatePassword {
     current_password: string;
     new_password: string;
+    confirm_new_password: string;
 }
