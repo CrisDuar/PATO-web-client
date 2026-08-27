@@ -35,6 +35,8 @@ export class EditEmail implements OnInit {
     Validators.required, Validators.email
   ]);
 
+  readonly currentPassword = new FormControl('', { nonNullable: true, validators: [Validators.required] });
+
   ngOnInit(): void {
     this.loadUserProfile();
   }
@@ -60,7 +62,7 @@ export class EditEmail implements OnInit {
 
     const payload = {
       new_email: this.emailControl.value,
-      password: ''
+      password: this.currentPassword.value
     };
 
     this.userService.updateEmail(payload).subscribe({

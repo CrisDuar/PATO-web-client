@@ -32,7 +32,7 @@ import { Auth } from '../../core/services/auth';
 })
 export class Login {
   private router = inject(Router);
-  private auth = inject(Auth);
+  private authService = inject(Auth);
 
   public formBuild = inject(FormBuilder);
 
@@ -58,7 +58,7 @@ export class Login {
     const email = this.emailControl.value!;
     const password = this.passwordControl.value!;
 
-    this.auth.login(email, password).subscribe({
+    this.authService.login(email, password).subscribe({
       next: () => this.router.navigate(['/map-viewer']),
       error: (err) => console.error('Login failed', err)
     })
