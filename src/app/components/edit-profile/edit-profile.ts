@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
-import {merge} from 'rxjs';
+import { merge } from 'rxjs';
 import {
   MatDialog,
   MatDialogClose,
@@ -43,9 +43,9 @@ type ViewMode = 'menu' | 'edit-name' | 'edit-email' | 'edit-password';
     MatDialogModule,
     ReactiveFormsModule,
     EditPassword,
-    EditName, 
+    EditName,
     EditEmail
-],
+  ],
   templateUrl: './edit-profile.html',
   styleUrl: './edit-profile.css',
 })
@@ -65,12 +65,12 @@ export class EditProfile {
     this.userService.getProfile().subscribe({
       next: (data) => {
         console.log('Objeto recibido del backend:', data);
-        this.currentUser.set(data); // <-- Actualiza la Signal
+        this.currentUser.set(data);
       },
       error: (err) => console.error(err)
     });
   }
-  
+
   currentView: ViewMode = 'menu';
 
   // Cambiar a la vista indicada
