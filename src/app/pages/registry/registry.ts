@@ -84,6 +84,7 @@ export class Registry {
       panelClass: ['error-snackbar'],
     });
   }
+  
   registrarCuenta() {
     if (this.camposVacios()) {
       this.abrirMensaje('Rellene los campos vacios');
@@ -111,8 +112,9 @@ export class Registry {
     // Consumir servicio
     this.registryService.registry(username, email, pass, confirmPass).subscribe({
       next: (res) => {
+        this.registryService.setEmail(email);
         this.abrirMensaje('Cuenta creada exitosamente');
-        this.router.navigate(['']);
+        this.router.navigate(['/verify-email']);
       },
       error: (err) => {
         const errorMsg = err.error?.message || 'Error al registrar la cuenta';
@@ -134,6 +136,4 @@ export class Registry {
     console.log('Registrando...', email, pass);
   }
   
-
-
 }

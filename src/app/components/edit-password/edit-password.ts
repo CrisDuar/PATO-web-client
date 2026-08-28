@@ -29,7 +29,6 @@ import { UserService } from '../../core/services/user.service';
     MatButtonModule,
     MatListModule,
     MatIconModule,
-
   ],
   templateUrl: './edit-password.html',
   styleUrl: './edit-password.css',
