@@ -1,3 +1,28 @@
 <div class="container-in-modal">
-  <p>PLACEHOLDER TYC</p>
+  <header class="modal-header">
+    <div>
+      <p class="eyebrow">Documentos legales</p>
+      <h2>Información de PATO</h2>
+    </div>
+    <button type="button" class="close-button" aria-label="Cerrar documentos" (click)="dialog.close()">&times;</button>
+  </header>
+
+  <nav class="document-tabs" aria-label="Documentos legales">
+    @for (document of documentKeys; track document) {
+      <button
+        type="button"
+        [class.active]="activeDocument() === document"
+        [attr.aria-selected]="activeDocument() === document"
+        (click)="activeDocument.set(document)">
+        {{ documents[document].label }}
+      </button>
+    }
+  </nav>
+
+  <main class="document-viewer">
+    <iframe
+      [src]="documents[activeDocument()].source"
+      [title]="documents[activeDocument()].label"
+      loading="eager"></iframe>
+  </main>
 </div>
