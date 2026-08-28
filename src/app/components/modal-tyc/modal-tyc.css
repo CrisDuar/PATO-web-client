@@ -1,21 +1,112 @@
 :host {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: block;
   width: 100%;
   height: 100%;
 }
 
-.container-in-modal{
-  margin: 1em;
-  background-color: white;
+.container-in-modal {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 33em;
-  height: fit-content;
-  border-radius: 1em;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #ffffff;
 }
-.container-in-modal a{
-  padding: 100rem;
+
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.eyebrow {
+  margin: 0 0 0.25rem;
+  color: #0f766e;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 1.25rem;
+}
+
+.close-button {
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #4b5563;
+  cursor: pointer;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.close-button:hover {
+  background: #f3f4f6;
+}
+
+.document-tabs {
+  display: flex;
+  gap: 0.35rem;
+  overflow-x: auto;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.document-tabs button {
+  flex: 0 0 auto;
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #111827;
+  cursor: pointer;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.8rem;
+}
+
+.document-tabs button.active {
+  border-color: #2dd4bf;
+  background: #2dd4bf;
+  color: #000000;
+  font-weight: 600;
+}
+
+.document-tabs button:hover:not(.active) {
+  border-color: #14b8a6;
+}
+
+.document-viewer {
+  min-height: 0;
+  flex: 1;
+  background: #f9fafb;
+  padding: 0.75rem;
+}
+
+iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 20rem;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+}
+
+@media (max-width: 600px) {
+  .modal-header,
+  .document-tabs {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .document-viewer {
+    padding: 0.5rem;
+  }
 }

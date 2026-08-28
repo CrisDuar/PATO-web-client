@@ -35,8 +35,10 @@ export class Registry {
   constructor(private __matDialog: MatDialog) {}
   abrirModal(): void {
     this.__matDialog.open(ModalTyc, {
-      width: '500px',
-      height: '500px',
+      width: 'min(920px, 96vw)',
+      maxWidth: '96vw',
+      height: 'min(780px, 92vh)',
+      maxHeight: '92vh',
     });
   }
   private _snackBar = inject(MatSnackBar);
