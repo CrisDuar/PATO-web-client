@@ -1,0 +1,14 @@
+<div class="card">
+    <h1>Ingresar código de verificación</h1>
+    <p>El código de verificiacion ha sido enviado a su correo</p>
+
+    @if (errorMessage()) {
+        <p class="error-text">{{ errorMessage() }}</p>
+    }
+
+    <app-otp-input (codeChange)="otpCode.set($event)"></app-otp-input>
+
+    <div class="flex">
+        <button type="button" matButton="filled" class="submit-container" (click)="onVerifyToken()">Enviar</button>
+    </div>
+</div>
