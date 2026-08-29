@@ -1,0 +1,37 @@
+@reference "../../../styles.css";
+
+.sidebar-title {
+  @apply text-sm font-medium text-gray-700;
+}
+
+.group-header {
+  @apply bg-[#d9c9b8] px-3 py-1.5 rounded text-sm font-medium text-gray-800 mb-2;
+}
+
+.indicator-label {
+  @apply text-sm text-gray-700;
+}
+
+.filter-label {
+  @apply block text-xs text-gray-500 mb-1;
+}
+
+.filter-select {
+  @apply w-full border border-gray-300 rounded px-2 py-1.5 text-sm text-gray-600;
+}
+
+.toggle-switch {
+  @apply relative inline-flex h-5 w-9 items-center rounded-full transition-colors;
+}
+
+.toggle-switch-on {
+  @apply bg-emerald-700;
+}
+
+.toggle-switch-off {
+  @apply bg-gray-300;
+}
+
+.toggle-thumb {
+  @apply inline-block h-4 w-4 transform rounded-full bg-white transition-transform;
+}

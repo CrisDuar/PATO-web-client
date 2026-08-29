@@ -15,7 +15,7 @@ jobs:
     container: 
       image: node:26-alpine
       volumes:
-        - "/var/www/html/:/host"
+        - "/var/www/html:/host"
 
     steps:
       - name: build
@@ -23,6 +23,12 @@ jobs:
 
       - name: Execute docker compose
         run: |
+          echo "\
+          export const environment = {\
+              production: ${{secrets.PRODUCTION}},\
+              apiAddr: '${{secrets.APIADDR}}'\
+          };" > ./src/environments/environment.development.ts
+
           npm install
           npm run build
             

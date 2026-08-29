@@ -1,0 +1,18 @@
+<div class="otp-container" (click)="otpInput.focus()">
+    <input 
+      #otpInput 
+      type="text" 
+      maxlength="6" 
+      inputmode="numeric" 
+      [(ngModel)]="otpCode" 
+      (ngModelChange)="onInputChange($event)"
+      class="hidden-input" />
+    
+    <div class="boxes">
+        @for (digit of digits; track $index) {
+        <div class="box" [class.active]="otpCode.length === $index">
+            {{ digit }}
+        </div>
+        }
+    </div>
+</div>

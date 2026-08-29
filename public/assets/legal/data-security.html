@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Documento de Seguridad de Datos - PATO</title>
+    <link rel="stylesheet" href="legal-style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Documento de Seguridad de Datos</h1>
+      <p>
+        Plataforma de Analisis y Toma de decisiones con Orientacion a la Pobreza Multidimensional -
+        PATO
+      </p>
+    </header>
+    <main>
+      <section>
+        <h2>1. Objeto y alcance</h2>
+        <p>
+          Este documento describe las medidas tecnicas y organizativas implementadas por PATO para
+          proteger nombre de usuario, correo electronico y contrasena frente a perdida, alteracion,
+          acceso no autorizado o divulgacion indebida.
+        </p>
+      </section>
+      <section>
+        <h2>2. Principios de seguridad</h2>
+        <ul>
+          <li><strong>Confidencialidad:</strong> acceso solo a personas y procesos autorizados.</li>
+          <li><strong>Integridad:</strong> proteccion frente a alteraciones no autorizadas.</li>
+          <li>
+            <strong>Disponibilidad:</strong> acceso para fines autorizados, dentro de un proyecto
+            academico sin SLA comercial.
+          </li>
+          <li><strong>Minimizacion:</strong> solo se recolectan los datos necesarios.</li>
+        </ul>
+      </section>
+      <section>
+        <h2>3. Gestion de contrasenas</h2>
+        <p>
+          Las contrasenas no se almacenan en texto plano. Actualmente ingresan hasheadas mediante
+          SHA-256. La plataforma exige minimo ocho caracteres,una minuscula, una mayuscula, un numero y un caracter especial.
+        </p>
+        <p class="note">
+          Se recomienda migrar a bcrypt, Argon2 o scrypt e incorporar salt unico por usuario, ya que
+          SHA-256 es una funcion general de ejecucion rapida y no esta disenada especificamente para
+            contrasenas.
+            </p>
+      </section>
+      <section>
+        <h2>4. Control de acceso</h2>
+        <p>
+          El acceso completo a la base de datos esta restringido al administrador. La API usa un
+          usuario tecnico con permisos limitados para registro y autenticacion. Los accesos
+          administrativos no utilizan actualmente autenticacion de dos factores.
+        </p>
+        <p>Se mantienen logs de creacion, consulta y actualizacion de los datos de usuarios.</p>
+      </section>
+      <section>
+        <h2>5. Autenticacion de usuarios</h2>
+        <p>
+          La autenticacion usa correo electronico y contrasena, con la politica minima de
+          complejidad descrita anteriormente. Se contempla implementar un limite de intentos
+          fallidos antes del bloqueo temporal.
+        </p>
+      </section>
+      <section>
+        <h2>6. Recuperacion de contrasena</h2>
+        <p>
+          La recuperacion usa un token de un solo uso enviado al correo registrado. Expira en quince
+          minutos y se invalida despues de utilizarse. Los correos se envian mediante un servidor
+          SMTP propio.
+        </p>
+      </section>
+      <section>
+        <h2>7. Cifrado y transmision</h2>
+        <p>
+          La aplicacion utiliza HTTPS mediante un certificado de Let's Encrypt. La infraestructura
+          esta alojada en un servidor privado virtual provisto por la universidad.
+        </p>
+      </section>
+      <section>
+        <h2>8. Copias de seguridad y continuidad</h2>
+        <p>
+          Los procedimientos de copias de seguridad, conservacion y recuperacion deben definirse de
+          acuerdo con la infraestructura definitiva del proyecto.
+        </p>
+      </section>
+      <section>
+        <h2>9. Gestion de incidentes</h2>
+        <p>
+          Ante un incidente se identificara, contendra y evaluara la informacion afectada. El
+          reporte interno se realiza por Microsoft Teams y los usuarios afectados seran notificados
+          por correo electronico cuando corresponda.
+        </p>
+      </section>
+      <section>
+        <h2>10. Notificacion a la SIC</h2>
+        <p>
+          Los incidentes relevantes que involucren acceso no autorizado, perdida o alteracion de
+          datos personales se gestionaran conforme a la Ley 1581 de 2012 y sus decretos
+          reglamentarios, incluyendo el reporte a la SIC cuando sea necesario.
+        </p>
+      </section>
+      <section>
+        <h2>11. Terceros y proveedores</h2>
+        <p>
+          PATO consume datos publicos y anonimizados del DANE y la CEPAL. El correo y la
+          infraestructura son propios o provistos por la universidad; actualmente no existe un
+          tercero externo que procese datos personales.
+        </p>
+      </section>
+      <section>
+        <h2>12. Vigencia y actualizacion</h2>
+        <p>
+          Este documento sera revisado y actualizado conforme evolucione la infraestructura tecnica
+          de PATO. Los cambios sustanciales se reflejaran en una nueva version.
+        </p>
+      </section>
+    </main>
+    <footer><p>Ultima actualizacion: 28/08/2026 - Documento en construccion</p></footer>
+  </body>
+</html>

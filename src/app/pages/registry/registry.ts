@@ -9,6 +9,7 @@ import { MatIcon } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog'
 import { ModalTyc } from '../../components/modal-tyc/modal-tyc.component'
+import { RegistryService } from '../../core/services/registry.service';
 
 @Component({
   selector: 'app-registry',
@@ -27,20 +28,29 @@ import { ModalTyc } from '../../components/modal-tyc/modal-tyc.component'
   styleUrl: './registry.css',
 })
 export class Registry {
+  private registryService = inject(RegistryService);
+  private router = inject(Router);
+
   //constructor(private router: Router) {}
   constructor(private __matDialog: MatDialog) {}
   abrirModal(): void {
     this.__matDialog.open(ModalTyc, {
-      width: '500px',
-      height: '500px',
+      width: 'min(920px, 96vw)',
+      maxWidth: '96vw',
+      height: 'min(780px, 92vh)',
+      maxHeight: '92vh',
     });
   }
   private _snackBar = inject(MatSnackBar);
+
   PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+
+  usernameCampo = signal('');
   emailCampo = signal('');
   passwordCampo = signal('');
   passwordConfirmacionCampo = signal('');
   checkBox = signal(false);
+
   hide = signal(true);
   hide2 = signal(false);
   clickEvent(event: MouseEvent) {
@@ -74,6 +84,7 @@ export class Registry {
       panelClass: ['error-snackbar'],
     });
   }
+  
   registrarCuenta() {
     if (this.camposVacios()) {
       this.abrirMensaje('Rellene los campos vacios');
@@ -91,8 +102,26 @@ export class Registry {
       this.abrirMensaje('Acepte terminos y condiciones');
       return;
     }
+
+    // Extraer valores
     const email = this.emailCampo();
     const pass = this.passwordCampo();
+    const confirmPass = this.passwordConfirmacionCampo();
+    const username = this.usernameCampo();
+
+    // Consumir servicio
+    this.registryService.registry(username, email, pass, confirmPass).subscribe({
+      next: (res) => {
+        this.registryService.setEmail(email);
+        this.abrirMensaje('Cuenta creada exitosamente');
+        this.router.navigate(['/verify-email']);
+      },
+      error: (err) => {
+        const errorMsg = err.error?.message || 'Error al registrar la cuenta';
+        this.abrirMensaje(errorMsg);
+      }
+    });
+
     /*
     Se hace una verificacion con los metodos ya existentes para verificación de campos si coinciden y si cumplen los requisitos:
     - Al menos una minuscula
@@ -106,4 +135,5 @@ export class Registry {
     */
     console.log('Registrando...', email, pass);
   }
+  
 }

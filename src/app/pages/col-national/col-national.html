@@ -1,0 +1,11 @@
+<app-navbar></app-navbar>
+<h2>Channel Dashboard</h2>
+
+<div class="dashboard-widgets">
+
+
+</div>
+@for(w of store.widgets(); track w.id) {
+    <app-widget [data]="w"/>
+}
+

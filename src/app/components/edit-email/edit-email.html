@@ -1,6 +1,10 @@
 <mat-action-list class="list-edit-profile">
     <mat-form-field appearance="outline">
-        <input matInput type="text" [formControl]="emailControl" [formControl]="emailControl" required />
+        <mat-label>Contraseña actual</mat-label>
+        <input matInput type="password" [formControl]="currentPassword">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <input matInput type="text" [formControl]="emailControl" required />
 
         @if (emailControl.hasError('required')) {
         <mat-error>Es obligatorio llenar el campo</mat-error>

@@ -5,6 +5,10 @@
     <mat-card-content>
       <div class="custom-card-header">
         <h1 class="login-title">Iniciar sesión</h1>
+        <div class="subtext-container">
+          <p>¿No tienes una cuenta?</p>
+          <a routerLink="/register" class="forgot-password-link">Crea una justo ahora</a>
+        </div>
       </div>
       <mat-form-field class="input-custom" appearance="outline">
         <mat-label>Correo</mat-label>
@@ -12,7 +16,7 @@
       </mat-form-field>
       <mat-form-field class="input-custom" appearance="outline">
         <mat-label>Contraseña</mat-label>
-        <input matInput [type]="hide() ? 'password' : 'text'" [formControl]="passwordControl"/>
+        <input matInput [type]="hide() ? 'password' : 'text'" [formControl]="passwordControl" />
         <button matIconButton matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
           [attr.aria-pressed]="hide()">
           <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -22,7 +26,7 @@
         <button type="button" matButton="filled" class="submit-container" (click)="login()">Iniciar Sesión</button>
       </div>
       <div class="flex">
-        <a href="#" class="forgot-password-link">¿Olvidaste tu contraseña?</a>
+        <a routerLink="/accountRecovery" class="forgot-password-link">¿Olvidaste tu contraseña?</a>
       </div>
     </mat-card-content>
   </mat-card>
