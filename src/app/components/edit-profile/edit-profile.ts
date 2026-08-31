@@ -17,11 +17,9 @@ import {
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { EditPassword } from '../edit-password/edit-password';
-import { CdkAriaLive } from "../../../../node_modules/@angular/cdk/types/_a11y-module-chunk";
 import { EditName } from '../edit-name/edit-name';
 import { EditEmail } from '../edit-email/edit-email';
 import { UserService } from '../../core/services/user.service';
-import { User } from '../../interfaces/user.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 
