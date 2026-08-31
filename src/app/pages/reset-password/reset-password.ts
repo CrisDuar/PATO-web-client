@@ -17,6 +17,7 @@ import { merge } from 'rxjs';
 import { AccountRecoveryService } from '../../core/services/account-recovery.service';
 import { MatIconModule } from '@angular/material/icon';
 
+type ViewMode = 'token' | 'reset-password';
 
 @Component({
   selector: 'app-reset-password',
@@ -109,6 +110,31 @@ export class ResetPassword {
     } else {
       this.errorMessage.set('');
     }
+  }
+
+  currentView: ViewMode = 'token';
+
+  // Cambiar a la vista indicada
+  setView(view: ViewMode): void {
+    this.currentView = view;
+  }
+
+  // Regresar al menú principal
+  goBack(): void {
+    this.currentView = 'token';
+  }
+
+  // Icono de ojo
+  hide = signal(true);
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
+  }
+
+  hide2 = signal(true);
+  clickEvent2(event: MouseEvent) {
+    this.hide2.set(!this.hide2());
+    event.stopPropagation();
   }
 
 }
