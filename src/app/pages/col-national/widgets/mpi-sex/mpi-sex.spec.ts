@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InternetAccess } from './internet-access';
+import { MpiSex } from './mpi-sex';
 
-describe('InternetAccess', () => {
-  let component: InternetAccess;
-  let fixture: ComponentFixture<InternetAccess>;
+describe('MpiSex', () => {
+  let component: MpiSex;
+  let fixture: ComponentFixture<MpiSex>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InternetAccess],
+      imports: [MpiSex],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(InternetAccess);
+    fixture = TestBed.createComponent(MpiSex);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

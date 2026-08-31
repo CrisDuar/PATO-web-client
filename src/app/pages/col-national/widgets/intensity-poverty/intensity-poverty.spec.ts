@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Ipm } from './ipm';
+import { IntensityPoverty } from './intensity-poverty';
 
-describe('Ipm', () => {
-  let component: Ipm;
-  let fixture: ComponentFixture<Ipm>;
+describe('IntensityPoverty', () => {
+  let component: IntensityPoverty;
+  let fixture: ComponentFixture<IntensityPoverty>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Ipm],
+      imports: [IntensityPoverty],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Ipm);
+    fixture = TestBed.createComponent(IntensityPoverty);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

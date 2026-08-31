@@ -1,16 +1,26 @@
-export interface IpmApiResponse {
-  anio: number;
-  dominio: string;
-  ipm: string; // Llega como string ej: "29.700000"
+import { Type } from '@angular/core';
+
+export interface PmiApiResponse {
+    anio: number;
+    dominio: string;
+    ipm: string;
 }
 
 export interface WidgetItem {
-  id: number;
-  label: string; // Siempre estático: "Incidencia IPM"
-  ipmValue: number;
-  year: number;
-  domain: string;
-  rows?: number;
-  columns?: number;
-  content: Type<unknown>;
+    id: number;
+    label: string;
+    content: Type<unknown>;
+}
+
+export interface DeprivationsItem {
+    anio: number;
+    dominio: string;
+    variable: string;
+    ipm: number;
+}
+
+export interface IntensityPovertyItem {
+    anio: number;
+    dominio: string;
+    porcentaje: string;
 }

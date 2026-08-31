@@ -1,15 +1,24 @@
 import { HttpInterceptorFn } from '@angular/common/http';
+import { inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-    const token = localStorage.getItem('authToken');
+    const platformId = inject(PLATFORM_ID);
 
-    if (token) {
-        const authReq = req.clone({
-            setHeaders: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-        return next(authReq);
+    if (isPlatformBrowser(platformId)) {
+        const token = localStorage.getItem('authToken');
+
+        // Log para depurar en consola del navegador
+        console.log(`[Interceptor] Petición a: ${req.url} | Token encontrado:`, !!token);
+
+        if (token) {
+            const authReq = req.clone({
+                setHeaders: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return next(authReq);
+        }
     }
 
     return next(req);

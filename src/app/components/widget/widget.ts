@@ -1,5 +1,6 @@
 import { Component, input } from '@angular/core';
-import { WidgetItem } from '../../models/dashboard/dashboard';
+import { WidgetItem } from '../../interfaces/ipm.interface';
+
 
 @Component({
   selector: 'app-widget',

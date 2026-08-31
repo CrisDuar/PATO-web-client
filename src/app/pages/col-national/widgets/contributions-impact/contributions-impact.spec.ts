@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LATDashboard } from './lat-dashboard';
+import { ContributionsImpact } from './contributions-impact';
 
-describe('LATDashboard', () => {
-  let component: LATDashboard;
-  let fixture: ComponentFixture<LATDashboard>;
+describe('ContributionsImpact', () => {
+  let component: ContributionsImpact;
+  let fixture: ComponentFixture<ContributionsImpact>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LATDashboard],
+      imports: [ContributionsImpact],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LATDashboard);
+    fixture = TestBed.createComponent(ContributionsImpact);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
