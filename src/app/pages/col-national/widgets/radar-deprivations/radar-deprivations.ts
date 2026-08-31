@@ -81,9 +81,9 @@ export class RadarDeprivations {
     r: {
       beginAtZero: true,
       max: 100,
-      ticks: { display: false },
+      ticks: { display: true},
       pointLabels: {
-        font: { size: 10 },
+        font: { size: 12 },
         color: '#475569',
         // Fuerza el salto de línea en etiquetas compuestas
         callback: (label: string) => {
