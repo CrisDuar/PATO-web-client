@@ -4,7 +4,7 @@
   <div class="flex-1 border-l-0 flex items-center justify-around p-3">
     <div class="w-full max-w-sm">
       <h2 class="text-2xl font-bold mb-6">Registrar cuenta</h2>
-      <form class="flex flex-col gap-4">
+      <form class="flex flex-col gap-8">
         <mat-form-field appearance="outline" class="campo-password py-2 text-sm focus:outline-none focus:ring-2">
           <mat-label>Nombre de usuario</mat-label>
           <input
@@ -18,59 +18,35 @@
         </mat-form-field>
         <mat-form-field appearance="outline" class="campo-password py-2 text-sm focus:outline-none focus:ring-2">
           <mat-label>Email</mat-label>
-          <input
-            matInput
-            placeholder="persona@pato.com"
-            [value]="emailCampo()"
-            (input)="emailCampo.set(txtEmail.value)"
-            (change)="emailCampo.set(txtEmail.value)"
-            #txtEmail
-            required
-          />
+          <input matInput type="email" [formControl]="emailControl" required />
+
+          @if (emailControl.hasError('required')) {
+          <mat-error>Es obligatorio llenar el campo</mat-error>
+          }
+
+          @if (emailControl.hasError('email')) {
+          <mat-error>Introduce un correo válido</mat-error>
+          }
         </mat-form-field>
         <mat-form-field appearance="outline" class="campo-password">
           <mat-label>Contraseña</mat-label>
-          <input
-            required
-            [value]="passwordCampo()"
-            (input)="passwordCampo.set(txtPassword.value)"
-            (change)="passwordCampo.set(txtPassword.value)"
-            #txtPassword
-            matInput [type]="hide2() ? 'password' : 'text'" />
-          <button
-            type="button"
-            class="button-icon"
-            matIconButton
-            matSuffix
-            (click)="clickEvent2($event)"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide2()"
-          >
-            <mat-icon>{{hide2() ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
+          <input matInput [type]="hide() ? 'password' : 'text'" [formControl]="newPassword" />
+        <button matIconButton matSuffix type="button" (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide()">
+            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        @if (newPassword.invalid && (newPassword.dirty || newPassword.touched)) {
+        <mat-error>{{ errorMessage() }}</mat-error>
+        }
         </mat-form-field>
         <mat-form-field appearance="outline" class="campo-password py-2 text-sm focus:outline-none focus:ring-2">
           <mat-label>Repetir contraseña</mat-label>
-          <input
-            required
-            [value]="passwordConfirmacionCampo()"
-            (input)="passwordConfirmacionCampo.set(txtPasswordConfirmation.value)"
-            (change)="passwordConfirmacionCampo.set(txtPasswordConfirmation.value);"
-            #txtPasswordConfirmation
-            matInput [type]="hide() ? 'password' : 'text'" />
-          <button
-            type="button"
-            class="button-icon"
-            matIconButton
-            matSuffix
-            (click)="clickEvent($event)"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide()"
-          >
-            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
+          <input matInput [type]="hide2() ? 'password' : 'text'" [formControl]="confirmPassword" />
+        <button matIconButton matSuffix type="button"(click)="clickEvent2($event)" [attr.aria-label]="'Hide password2'"
+            [attr.aria-pressed]="hide2()">
+            <mat-icon>{{hide2() ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
         </mat-form-field>
-
         <label class="flex items-center gap-2 text-sm text-gray-500">
           <input
             [checked]="checkBox()"
