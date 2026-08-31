@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EditProfile } from '../edit-profile/edit-profile';
+
 import {
   MatDialog,
   MatDialogClose,
@@ -40,7 +41,6 @@ export class EditPassword {
   private userService = inject(UserService);
 
   readonly currentPassword = new FormControl('', { nonNullable: true, validators: [Validators.required] });
-
   readonly newPassword = new FormControl('', {
     nonNullable: true,
     validators: [
@@ -49,7 +49,6 @@ export class EditPassword {
       Validators.pattern(/(?=.*[A-Z])(?=.*[0-9])/)
     ]
   });
-
   readonly confirmPassword = new FormControl('', { nonNullable: true, validators: [Validators.required] });
 
   constructor() {
@@ -63,6 +62,14 @@ export class EditPassword {
     if (this.currentPassword.invalid || this.newPassword.invalid || this.confirmPassword.invalid) {
       this.updateErrorMessage();
       return;
+    }
+
+    if (this.newPassword.value !== this.confirmPassword.value) {
+      this.snackBar.open('Las contraseñas no coinciden', 'Cerrar', {
+        duration: 3000,
+        verticalPosition: 'top',
+      });
+
     }
 
     const payload = {
@@ -88,17 +95,8 @@ export class EditPassword {
         });
       }
 
-
     })
 
-
-    if (this.newPassword.value !== this.confirmPassword.value) {
-      this.snackBar.open('Las contraseñas no coinciden', 'Cerrar', {
-        duration: 3000,
-        verticalPosition: 'top',
-      });
-      return;
-    }
 
 
   }
@@ -114,6 +112,25 @@ export class EditPassword {
     } else {
       this.errorMessage.set('');
     }
+  }
+
+  // Icono de ojo
+  hide = signal(true);
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
+  }
+
+  hide2 = signal(true);
+  clickEvent2(event: MouseEvent) {
+    this.hide2.set(!this.hide2());
+    event.stopPropagation();
+  }
+
+  hide3 = signal(true);
+  clickEvent3(event: MouseEvent) {
+    this.hide3.set(!this.hide3());
+    event.stopPropagation();
   }
 
 }
