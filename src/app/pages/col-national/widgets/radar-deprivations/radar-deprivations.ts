@@ -71,8 +71,8 @@ export class RadarDeprivations {
   maintainAspectRatio: false,
   layout: {
     padding: {
-      left: 60,   // Espacio reservado para etiquetas izquierdas
-      right: 60,  // Espacio reservado para etiquetas derechas
+      left: 60,   
+      right: 60,  
       top: 20,
       bottom: 20
     }
@@ -85,7 +85,6 @@ export class RadarDeprivations {
       pointLabels: {
         font: { size: 10 },
         color: '#475569',
-        // Fuerza el salto de línea en etiquetas compuestas
         callback: (label: string) => {
           if (label.length > 12) {
             const words = label.split(' ');

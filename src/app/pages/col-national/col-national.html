@@ -57,6 +57,56 @@
                 </mat-form-field>
             </div>
         </div>
+
+        <div class="filter-group">
+            <span class="filter-title">Contribuciones a la incidencia Ajustada del IPM</span>
+            <br>
+            <div class="fields-row">
+                <mat-form-field appearance="outline" class="compact-field">
+                    <mat-label>Año</mat-label>
+                    <mat-select >
+                        @for (year of availableYears(); track year) {
+                        <mat-option [value]="year">{{ year }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="compact-field">
+                    <mat-label>Dominio</mat-label>
+                    <mat-select>
+                        @for (domain of availableDomains(); track domain) {
+                        <mat-option [value]="domain">{{ domain }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="filter-group">
+            <span class="filter-title">IPM según sexo de la persona</span>
+            <br>
+                <mat-form-field appearance="outline" class="compact-field">
+                    <mat-label>Dominio</mat-label>
+                    <mat-select>
+                        @for (domain of availableDomains(); track domain) {
+                        <mat-option [value]="domain">{{ domain }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+        </div>
+
+        <div class="filter-group">
+            <span class="filter-title">IPM según sexo del jefe del hogar</span>
+            <br>
+                <mat-form-field appearance="outline" class="compact-field">
+                    <mat-label>Dominio</mat-label>
+                    <mat-select>
+                        @for (domain of availableDomains(); track domain) {
+                        <mat-option [value]="domain">{{ domain }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+        </div>
     </aside>
 
     <!-- CONTENIDO PRINCIPAL -->
