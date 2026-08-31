@@ -1,0 +1,79 @@
+<app-navbar></app-navbar>
+
+<div class="dashboard-layout">
+
+    <!-- BARRA LATERAL IZQUIERDA -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Filtros</h2>
+        </div>
+
+        <div class="filter-group">
+            <span class="filter-title">Incidencia IPM por dominio</span>
+            <br>
+            <mat-form-field appearance="outline" class="compact-field">
+                <mat-label>Año</mat-label>
+                <mat-select [(value)]="selectedYear">
+                    @for (year of availableYears(); track year) {
+                    <mat-option [value]="year">{{ year }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="filter-group">
+            <span class="filter-title">Proporción de privaciones</span>
+            <br>
+            <mat-form-field appearance="outline" class="compact-field">
+                <mat-label>Año</mat-label>
+                <mat-select [(value)]="selectedYear3">
+                    @for (year of availableYears(); track year) {
+                    <mat-option [value]="year">{{ year }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="filter-group">
+            <span class="filter-title">Privaciones por hogar</span>
+            <br>
+            <div class="fields-row">
+                <mat-form-field appearance="outline" class="compact-field">
+                    <mat-label>Año</mat-label>
+                    <mat-select [(value)]="selectedYear2">
+                        @for (year of availableYears(); track year) {
+                        <mat-option [value]="year">{{ year }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="compact-field">
+                    <mat-label>Dominio</mat-label>
+                    <mat-select [(value)]="selectedDomain">
+                        @for (domain of availableDomains(); track domain) {
+                        <mat-option [value]="domain">{{ domain }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="main-content">
+        <header class="dashboard-header">
+            <h1>Panel Multidimensional de Pobreza</h1>
+        </header>
+        <br>
+
+        <!-- RENDERIZADO DE WIDGETS -->
+        <div class="dashboard-grid">
+            @for (widget of dashboardService.widgets(); track widget.id) {
+            <div class="dashboard-card">
+                <ng-container [ngComponentOutlet]="widget.content" />
+            </div>
+            }
+        </div>
+    </main>
+
+</div>
