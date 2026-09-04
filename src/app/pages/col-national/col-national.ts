@@ -27,21 +27,21 @@ export class ColNational {
     ]
   );
 
-  selectedYear = signal<number>(2010);
-  selectedYear2 = signal<number>(2010);
-  selectedYear3 = signal<number>(2010);
-  selectedDomain = signal<string>('Nacional');
+  year = signal<number>(2010);
+  year2 = signal<number>(2010);
+  year3 = signal<number>(2010);
+  domain = signal<string>('Nacional');
 
   constructor() {
     effect(() => {
-      const year = this.selectedYear();
-      const year2 = this.selectedYear2();
-      const year3 = this.selectedYear3();
-      const domain = this.selectedDomain();
+      const year = this.year();
+      const year2 = this.year2();
+      const year3 = this.year3();
+      const domain = this.domain();
 
       this.dashboardService.loadIpmData(year);
-      this.dashboardService.loadIntensityPovertyData(year3);
-      this.dashboardService.loadPrivationsData(domain, year2);
+      this.dashboardService.loadIntensityPovertyData(year2);
+      this.dashboardService.loadPrivationsData(domain, year3);
     });
   }
 }

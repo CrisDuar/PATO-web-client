@@ -13,7 +13,7 @@
             <br>
             <mat-form-field appearance="outline" class="compact-field">
                 <mat-label>Año</mat-label>
-                <mat-select [(value)]="selectedYear">
+                <mat-select [(value)]="year">
                     @for (year of availableYears(); track year) {
                     <mat-option [value]="year">{{ year }}</mat-option>
                     }
@@ -26,7 +26,7 @@
             <br>
             <mat-form-field appearance="outline" class="compact-field">
                 <mat-label>Año</mat-label>
-                <mat-select [(value)]="selectedYear3">
+                <mat-select [(value)]="year2">
                     @for (year of availableYears(); track year) {
                     <mat-option [value]="year">{{ year }}</mat-option>
                     }
@@ -40,7 +40,7 @@
             <div class="fields-row">
                 <mat-form-field appearance="outline" class="compact-field">
                     <mat-label>Año</mat-label>
-                    <mat-select [(value)]="selectedYear2">
+                    <mat-select [(value)]="year3">
                         @for (year of availableYears(); track year) {
                         <mat-option [value]="year">{{ year }}</mat-option>
                         }
@@ -49,7 +49,7 @@
 
                 <mat-form-field appearance="outline" class="compact-field">
                     <mat-label>Dominio</mat-label>
-                    <mat-select [(value)]="selectedDomain">
+                    <mat-select [(value)]="domain">
                         @for (domain of availableDomains(); track domain) {
                         <mat-option [value]="domain">{{ domain }}</mat-option>
                         }
