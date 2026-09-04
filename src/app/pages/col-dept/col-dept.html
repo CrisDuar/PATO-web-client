@@ -1,0 +1,60 @@
+<app-navbar></app-navbar>
+
+<div class="dashboard-layout">
+
+    <!-- BARRA LATERAL IZQUIERDA -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Filtros</h2>
+        </div>
+
+        <div class="filter-group">
+            <span class="filter-title">Contribución relativa de las privaciones a la PM</span>
+            <br>
+            <div class="fields-row">
+                <mat-form-field appearance="outline" class="compact-field">
+                    <mat-label>Año</mat-label>
+                    <mat-select [(value)]="selectedYear">
+                        @for (year of years(); track year) {
+                        <mat-option [value]="year">{{ year }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="compact-field">
+                    <mat-label>Región</mat-label>
+                    <mat-select [(value)]="selectedRegion">
+                        @for (region of regions(); track region) {
+                        <mat-option [value]="region">{{ region }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <mat-form-field appearance="outline" class="compact-field">
+                    <mat-label>Departamento</mat-label>
+                    <mat-select [(value)]="selectedDept">
+                        @for (dept of depts(); track dept) {
+                        <mat-option [value]="dept">{{ dept }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+        </div>
+
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="main-content">
+        <header class="dashboard-header">
+            <h1>Panel Multidimensional de Pobreza</h1>
+        </header>
+        <br>
+
+        <!-- RENDERIZADO DE WIDGETS -->
+        @for (widget of dashboardService.widgets(); track widget.id) {
+        <div class="dashboard-card">
+            <ng-container [ngComponentOutlet]="widget.content" />
+        </div>
+        }
+    </main>
+
+</div>

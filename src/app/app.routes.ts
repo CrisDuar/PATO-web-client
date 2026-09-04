@@ -10,13 +10,16 @@ import { FindAccount } from './pages/account-recovery/account-recovery';
 import { VerifyEmail } from './pages/verify-email/verify-email';
 import { ResetPassword } from './pages/reset-password/reset-password';
 import { ColNational } from './pages/col-national/col-national';
+import { LatinAmerica } from './pages/latin-america/latin-america';
+import { ColDept } from './pages/col-dept/col-dept';
 
 export const routes: Routes = [
-  {path:'register', component: Registry},
   {path:'register', component: Registry},
   {path:'accountRecovery', component: FindAccount},
   {path: '', component: Login},
   {path: 'col', component: ColNational},
+  {path: 'col-dept', component: ColDept},
+  {path: 'latin', component: LatinAmerica},
   {path: 'map-viewer', component: MapViewer},
   {path: 'chat-bot', component: ChatBOT},
   {path: 'prediction-viewer', component: PredictionViewer},
