@@ -10,13 +10,16 @@ import { MapElementComponent } from '../../components/map-element/map-element';
   styleUrl: './map-viewer.css',
 })
 export class MapViewer {
+  
   currentLocation = signal<LocationSelection>({
     pais: null,
-    departamento: null,
-    municipio: null,
+    region: null,
+    departamento: null
   });
 
   onLocationChange(location: LocationSelection) {
     this.currentLocation.set(location);
   }
+
+
 }

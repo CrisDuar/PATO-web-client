@@ -3,77 +3,54 @@
     <p class="sidebar-title">Filtrar por indicador</p>
   </div>
 
-  <div class="p-4 space-y-6">
-    @for (group of indicatorGroups; track group.title) {
-      <div>
-        <div class="group-header">{{ group.title }}</div>
+  <select
+    [value]="location()?.pais ?? ''"
+    (change)="onCountryChange($any($event.target).value || null)"
+  >
+    <option value="">Seleccione país</option>
 
-        <div class="space-y-2">
-          @for (item of group.items; track item.key) {
-            <div class="flex items-center justify-between px-1">
-              <span class="indicator-label">{{ item.label }}</span>
-
-              <button
-                type="button"
-                role="switch"
-                [attr.aria-checked]="isActive(item.key)"
-                (click)="toggleIndicator(item.key)"
-                class="toggle-switch"
-                [class.toggle-switch-on]="isActive(item.key)"
-                [class.toggle-switch-off]="!isActive(item.key)"
-              >
-                <span
-                  class="toggle-thumb"
-                  [class.translate-x-4]="isActive(item.key)"
-                  [class.translate-x-1]="!isActive(item.key)"
-                ></span>
-              </button>
-            </div>
-          }
-        </div>
-      </div>
+    @for (country of paises(); track country) {
+      <option [value]="country">{{ country }}</option>
     }
-  </div>
+  </select>
 
-  <div class="p-4 border-t border-gray-200 space-y-4">
-    <p class="sidebar-title">Filtrar por ubicación</p>
+  @if (location()?.pais === 'Colombia') {
+    @switch (status()) {
+      @case ('loading') {
+        <p>Cargando regiones...</p>
+      }
 
-    <div>
-        <label class="filter-label">País</label>
+      @case ('error') {
+        <p class="error">{{ locationService.error() }}</p>
+      }
+
+      @case ('loaded') {
         <select
-            [ngModel]="selectedPais()"
-            (ngModelChange)="onPaisChange($event)"
-            class="filter-select"
+          [value]="location()?.region ?? ''"
+          (change)="onRegionChange($any($event.target).value || null)"
         >
-            <option [ngValue]="null">Seleccione...</option>
-            @for (p of paises; track p) { <option [ngValue]="p">{{ p }}</option> }
+          <option value="">Todas las regiones</option>
+
+          @for (region of regions(); track region) {
+            <option [value]="region">{{ region }}</option>
+          }
         </select>
-    </div>
 
-    <div>
-        <label class="filter-label">Departamento</label>
-        <select
-            [ngModel]="selectedDepartamento()"
-            (ngModelChange)="onDepartamentoChange($event)"
-            class="filter-select"
-        >
-            <option [ngValue]="null">Seleccione...</option>
-            @for (d of departamentos; track d) { <option [ngValue]="d">{{ d }}</option> }
-        </select>
-    </div>
+        @if (departamentos().length) {
+          <select
+            [value]="location()?.departamento ?? ''"
+            (change)="onDepartmentChange($any($event.target).value || null)"
+          >
+            <option value="">Seleccione departamento</option>
 
-    <div>
-        <label class="filter-label">Municipio</label>
-        <select
-            [ngModel]="selectedMunicipio()"
-            (ngModelChange)="onMunicipioChange($event)"
-            class="filter-select"
-        >
-            <option [ngValue]="null">Seleccione...</option>
-            @for (m of municipios; track m) { <option [ngValue]="m">{{ m }}</option> }
-        </select>
-    </div>
-  </div>
-
-
+            @for (department of departamentos(); track department.code) {
+              <option [value]="department.code">
+                {{ department.name }}
+              </option>
+            }
+          </select>
+        }
+      }
+    }
+  }
 </aside>
