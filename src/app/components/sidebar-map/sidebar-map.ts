@@ -1,10 +1,12 @@
-import { Component, model, output, signal } from '@angular/core';
+import { Component, inject, model, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { LocationService } from '../../core/services/location.service';
+import { GeoDataService } from '../../core/services/geo-data-service';
 
 interface Indicator {
   key: string;
   label: string;
-}
+} 
 
 interface IndicatorGroup {
   title: string;
@@ -13,8 +15,8 @@ interface IndicatorGroup {
 
 export interface LocationSelection {
   pais: string | null;
-  departamento: string | null;
-  municipio: string | null;
+  region: string | null;        // solo aplica si pais === 'Colombia'
+  departamento: string | null;  // solo aplica si pais === 'Colombia'
 }
 
 @Component({
@@ -25,81 +27,70 @@ export interface LocationSelection {
 })
 
 export class Sidebar {
-  // --- Indicadores agrupados ---
-  indicatorGroups: IndicatorGroup[] = [
-    {
-      title: 'Salud',
-      items: [
-        { key: 'nutricion', label: 'Nutrición' },
-        { key: 'mortalidad_infantil', label: 'Mortalidad infantil' },
-      ],
-    },
-    {
-      title: 'Educación',
-      items: [
-        { key: 'anios_escolaridad', label: 'Años de escolaridad' },
-        { key: 'asistencia_escolar', label: 'Asistencia escolar' },
-      ],
-    },
-    {
-      title: 'Nivel de vida',
-      items: [
-        { key: 'combustible_cocinar', label: 'Combustible para cocinar' },
-        { key: 'saneamiento', label: 'Saneamiento' },
-        { key: 'agua_potable', label: 'Agua potable' },
-        { key: 'electricidad', label: 'Electricidad' },
-        { key: 'vivienda', label: 'Vivienda' },
-        { key: 'activos', label: 'Activos' },
-      ],
-    },
-  ];
+  readonly locationService = inject(LocationService);
+  
 
-  // Solo un indicador activo a la vez
-  activeIndicator = signal<string | null>(null);
+  readonly status = this.locationService.status;
+  readonly regions = this.locationService.regionNames;
+  readonly departamentos = this.locationService.departmentsForSelectedRegion;
 
-  toggleIndicator(key: string) {
-    this.activeIndicator.set(this.activeIndicator() === key ? null : key);
-  }
-
-  isActive(key: string): boolean {
-    return this.activeIndicator() === key;
-  }
-
-  // --- Ubicación (data de prueba) ---
-  paises = ['Colombia'];
-  departamentos = ['Santander', 'Antioquia', 'Cundinamarca'];
-  municipios = ['Bucaramanga', 'Floridablanca', 'Girón'];
+  paises = signal<string[]>([]);
 
   selectedPais = model<string | null>(null);
   selectedDepartamento = model<string | null>(null);
-  selectedMunicipio = model<string | null>(null);
-    // Evento que el padre (MapViewer) va a escuchar
+  selectedRegion = model<string | null>(null);
+
+  location = input<LocationSelection | null>(null);
   locationChange = output<LocationSelection>();
 
-  onPaisChange(value: string | null) {
-    this.selectedPais.set(value);
-    // Al cambiar país, se resetean los niveles inferiores (flujo jerárquico)
+  constructor(
+    private geoDataService: GeoDataService
+  ) {
+    this.locationService.load();
+
+    this.geoDataService.getCountries().subscribe({
+      next: (geojson) => {
+        const countries = geojson.features
+          .map((feature) => feature.properties?.['name'])
+          .filter((name): name is string => typeof name === 'string')
+          .sort((a, b) => a.localeCompare(b));
+
+        this.paises.set(countries);
+      },
+      error: (error) => {
+        console.error('Error cargando países', error);
+      },
+    });
+  }
+
+  onCountryChange(pais: string | null): void {
+    this.selectedPais.set(pais);
+    this.selectedRegion.set(null);
     this.selectedDepartamento.set(null);
-    this.selectedMunicipio.set(null);
+
+    this.locationService.selectRegion(null);
+    this.locationService.selectDepartment(null);
     this.emitLocation();
   }
 
-  onDepartamentoChange(value: string | null) {
-    this.selectedDepartamento.set(value);
-    this.selectedMunicipio.set(null);
+  onRegionChange(region: string | null): void {
+    this.selectedRegion.set(region);
+    this.selectedDepartamento.set(null);
+
+    this.locationService.selectRegion(region);
     this.emitLocation();
   }
 
-  onMunicipioChange(value: string | null) {
-    this.selectedMunicipio.set(value);
+  onDepartmentChange(code: string | null): void {
+    this.selectedDepartamento.set(code);
+    this.locationService.selectDepartment(code);
     this.emitLocation();
   }
-
-  private emitLocation() {
+  private emitLocation(): void {
     this.locationChange.emit({
       pais: this.selectedPais(),
+      region: this.selectedRegion(),
       departamento: this.selectedDepartamento(),
-      municipio: this.selectedMunicipio(),
     });
   }
 }

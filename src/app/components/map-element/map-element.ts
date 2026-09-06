@@ -1,28 +1,14 @@
 import {
   Component, ElementRef, Injector, OnDestroy, ViewChild,
-  afterNextRender, effect, input,
+  afterNextRender, effect, input, output,
 } from '@angular/core';
 import type * as L from 'leaflet';
-import type { Feature } from 'geojson';
+import type { Feature, FeatureCollection } from 'geojson';
 import type { LocationSelection } from '../sidebar-map/sidebar-map';
 import { GeoDataService } from '../../core/services/geo-data-service';
 import { dptName } from '../../core/models/department-model';
+import { LocationService } from '../../core/services/location.service';
 
-const COUNTRY_COORDS: Record<string, { center: L.LatLngExpression; zoom: number }> = {
-  Colombia: { center: [4.5709, -74.2973], zoom: 6 },
-};
-
-const DEPARTMENT_COORDS: Record<string, { center: L.LatLngExpression; zoom: number }> = {
-  Santander: { center: [7.1193, -73.1227], zoom: 9 },
-  Antioquia: { center: [6.5735, -75.6446], zoom: 9 },
-  Cundinamarca: { center: [4.9435, -74.1274], zoom: 9 },
-};
-
-const MUNICIPALITY_COORDS: Record<string, { center: L.LatLngExpression; zoom: number }> = {
-  Bucaramanga: { center: [7.1193, -73.1227], zoom: 13 },
-  Floridablanca: { center: [7.0653, -73.0868], zoom: 13 },
-  Girón: { center: [7.0687, -73.1717], zoom: 13 },
-};
 
 const DEFAULT_VIEW = { center: [4.5709, -74.2973] as L.LatLngExpression, zoom: 6 };
 
@@ -40,20 +26,24 @@ type ColombiaViewLevel = 'regions' | 'departments';
   styleUrl: './map-element.css',
 })
 export class MapElementComponent implements OnDestroy {
+  locationChange = output<LocationSelection>();
+  location = input<LocationSelection | null>(null);
   @ViewChild('mapContainer', { static: true })
   mapContainer!: ElementRef<HTMLDivElement>;
 
-  location = input<LocationSelection | null>(null);
 
   private map: L.Map | undefined;
   private leaflet: typeof import('leaflet') | undefined;
+  private countriesLayer: L.GeoJSON | undefined;
   private regionsLayer: L.GeoJSON | undefined;
   private departmentsLayer: L.GeoJSON | undefined;
   private colombiaLevel: ColombiaViewLevel = 'regions';
+  private countriesGeojson: FeatureCollection | undefined;
 
   constructor(
     private injector: Injector,
-    private geoDataService: GeoDataService
+    private geoDataService: GeoDataService,
+    private locationService: LocationService
   ) {
     afterNextRender(async () => {
       const leafletModule: any = await import('leaflet');
@@ -94,19 +84,60 @@ export class MapElementComponent implements OnDestroy {
   }
 
   private updateView(loc: LocationSelection | null): void {
-    if (!this.map) return;
+    if (!this.map || !this.leaflet) return;
 
-    let target = DEFAULT_VIEW;
+    const L = this.leaflet;
 
-    if (loc?.municipio && MUNICIPALITY_COORDS[loc.municipio]) {
-      target = MUNICIPALITY_COORDS[loc.municipio];
-    } else if (loc?.departamento && DEPARTMENT_COORDS[loc.departamento]) {
-      target = DEPARTMENT_COORDS[loc.departamento];
-    } else if (loc?.pais && COUNTRY_COORDS[loc.pais]) {
-      target = COUNTRY_COORDS[loc.pais];
+    if (loc?.departamento) {
+      const department = this.locationService
+        .departmentFeatures()
+        .find(department => department.code === loc.departamento);
+
+      if (department) {
+        this.map.flyToBounds(
+          L.geoJSON(department.feature as any).getBounds(),
+          { duration: 1.2 }
+        );
+      }
+
+      return;
     }
 
-    this.map.flyTo(target.center, target.zoom, { duration: 1.2 });
+    if (loc?.region) {
+      const region = this.locationService
+        .regionFeatures()
+        .find(region => region.name === loc.region);
+
+      if (region) {
+        this.map.flyToBounds(
+          L.geoJSON(region.feature as any).getBounds(),
+          { duration: 1.2 }
+        );
+      }
+
+      return;
+    }
+
+    if (loc?.pais && loc.pais !== 'Colombia') {
+      const country = this.countriesGeojson?.features.find(
+        feature => feature.properties?.['name'] === loc.pais
+      );
+
+      if (country) {
+        this.map.flyToBounds(
+          L.geoJSON(country as any).getBounds(),
+          { duration: 1.2 }
+        );
+      }
+
+      return;
+    }
+
+    if (loc?.pais === 'Colombia') {
+      this.map.flyTo([4.5709, -74.2973], 6, {
+        duration: 1.2,
+      });
+    }
   }
 
   private syncColombiaLayers(loc: LocationSelection | null): void {
@@ -115,10 +146,12 @@ export class MapElementComponent implements OnDestroy {
     if (!isColombia) {
       this.removeRegionsLayer();
       this.removeDepartmentsLayer();
+      this.showCountriesLayer();
       this.colombiaLevel = 'regions';
       return;
     }
-
+    
+    this.removeCountriesLayer();
     const wantsDepartmentLevel = !!loc?.departamento || this.colombiaLevel === 'departments';
 
     if (wantsDepartmentLevel) {
@@ -147,6 +180,13 @@ export class MapElementComponent implements OnDestroy {
 
           layer.on('click', () => {
             this.colombiaLevel = 'departments';
+
+            this.locationChange.emit({
+              pais: 'Colombia',
+              region: name,
+              departamento: null,
+            });
+
             this.removeRegionsLayer();
             this.showDepartmentsLayer();
 
@@ -173,8 +213,16 @@ export class MapElementComponent implements OnDestroy {
           layer.on('mouseover', () => (layer as L.Path).setStyle(DEPARTMENT_HOVER_STYLE));
           layer.on('mouseout', () => (layer as L.Path).setStyle(DEPARTMENT_BASE_STYLE));
           layer.on('click', () => {
-            // TODO: semaforización / detalle del departamento
-            console.log('Departamento:', name);
+            const code = feature.properties?.['DPTO'] ?? null;
+
+            this.locationChange.emit({
+              pais: 'Colombia',
+              region: this.locationService.selectedRegion(),
+              departamento: code,
+            });
+
+            const bounds = (layer as L.Polygon).getBounds();
+            this.map?.flyToBounds(bounds, { duration: 1.2 });
           });
         },
       }).addTo(this.map);
@@ -189,5 +237,90 @@ export class MapElementComponent implements OnDestroy {
   private removeDepartmentsLayer(): void {
     this.departmentsLayer?.remove();
     this.departmentsLayer = undefined;
+  }
+
+  private showCountriesLayer(): void {
+    if (this.countriesLayer || !this.map || !this.leaflet) return;
+
+    const L = this.leaflet;
+
+    this.geoDataService.getCountries().subscribe({
+      next: (geojson) => {
+        if (!this.map) return;
+
+        this.countriesGeojson = geojson;
+
+        this.countriesLayer = L.geoJSON(geojson as any, {
+          style: {
+            color: '#64748b',
+            weight: 1,
+            fillColor: '#cbd5e1',
+            fillOpacity: 0.45,
+          },
+
+          onEachFeature: (feature: Feature, layer: L.Layer) => {
+            const name = feature.properties?.['name'] ?? 'País';
+
+            layer.bindTooltip(name, {
+              direction: 'center',
+              className: 'country-label',
+            });
+
+            layer.on('mouseover', () => {
+              (layer as L.Path).setStyle({
+                weight: 2,
+                color: '#0f172a',
+                fillOpacity: 0.7,
+              });
+            });
+
+            layer.on('mouseout', () => {
+              (layer as L.Path).setStyle({
+                color: '#64748b',
+                weight: 1,
+                fillColor: '#cbd5e1',
+                fillOpacity: 0.45,
+              });
+            });
+
+            layer.on('click', (event) => {
+              const path = layer as L.Path;
+
+              // Quita el foco que genera el cuadro naranja
+              (event.originalEvent.target as HTMLElement).blur();
+
+              // Centra el mapa en el país seleccionado
+              const bounds = (layer as L.Polygon).getBounds();
+              this.map?.flyToBounds(bounds, { duration: 1 });
+
+              // Mantiene el estilo normal, sin selección naranja
+              path.setStyle({
+                color: '#64748b',
+                weight: 1,
+                fillColor: '#cbd5e1',
+                fillOpacity: 0.45,
+              });
+
+              this.locationChange.emit({
+                pais: name,
+                region: null,
+                departamento: null,
+              });
+
+              console.log('País seleccionado:', name);
+            });
+          },
+        }).addTo(this.map);
+      },
+
+      error: (error) => {
+        console.error('Error cargando países', error);
+      },
+    });
+  }
+
+  private removeCountriesLayer(): void {
+    this.countriesLayer?.remove();
+    this.countriesLayer = undefined;
   }
 }
