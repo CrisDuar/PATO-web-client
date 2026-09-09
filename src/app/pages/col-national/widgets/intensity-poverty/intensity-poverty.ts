@@ -1,7 +1,7 @@
 import { Component, computed, ElementRef, inject, PLATFORM_ID, effect, viewChild } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { DashboardService } from '../../../../core/services/dashboard.service';
 import { Chart } from 'chart.js';
+import { ColNationalService } from '../../../../core/services/dashboard-services/col-national.service';
 
 @Component({
   selector: 'app-intensity-poverty',
@@ -10,7 +10,7 @@ import { Chart } from 'chart.js';
   styleUrl: './intensity-poverty.css',
 })
 export class IntensityPoverty {
-  private dashboardService = inject(DashboardService);
+  private dashboardService = inject(ColNationalService);
   private platformId = inject(PLATFORM_ID);
 
   chartElement = viewChild<ElementRef<HTMLCanvasElement>>('Chart');

@@ -64,7 +64,7 @@
             <div class="fields-row">
                 <mat-form-field appearance="outline" class="compact-field">
                     <mat-label>Año</mat-label>
-                    <mat-select >
+                    <mat-select [(value)]="year4">
                         @for (year of availableYears(); track year) {
                         <mat-option [value]="year">{{ year }}</mat-option>
                         }
@@ -73,8 +73,8 @@
 
                 <mat-form-field appearance="outline" class="compact-field">
                     <mat-label>Dominio</mat-label>
-                    <mat-select>
-                        @for (domain of availableDomains(); track domain) {
+                    <mat-select [(value)]="domain2">
+                        @for (domain of availableDomains2(); track domain) {
                         <mat-option [value]="domain">{{ domain }}</mat-option>
                         }
                     </mat-select>
@@ -87,8 +87,8 @@
             <br>
                 <mat-form-field appearance="outline" class="compact-field">
                     <mat-label>Dominio</mat-label>
-                    <mat-select>
-                        @for (domain of availableDomains(); track domain) {
+                    <mat-select [(value)]="domain3">
+                        @for (domain of availableDomains2(); track domain) {
                         <mat-option [value]="domain">{{ domain }}</mat-option>
                         }
                     </mat-select>
@@ -100,8 +100,8 @@
             <br>
                 <mat-form-field appearance="outline" class="compact-field">
                     <mat-label>Dominio</mat-label>
-                    <mat-select>
-                        @for (domain of availableDomains(); track domain) {
+                    <mat-select [(value)]="domain4">
+                        @for (domain of availableDomains2(); track domain) {
                         <mat-option [value]="domain">{{ domain }}</mat-option>
                         }
                     </mat-select>

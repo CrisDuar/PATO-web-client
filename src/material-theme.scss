@@ -65,7 +65,7 @@ body {
     container-color: #264240,
     item-hover-state-layer-color: #4b7272,
     item-label-text-weight: 300,
-    item-label-text-color: white
+    item-label-text-color: white,
   ));
 
   @include mat.form-field-overrides((
@@ -77,7 +77,8 @@ body {
 
   @include mat.button-overrides((
     filled-container-color: #D6A79F,
-    filled-label-text-color: black
+    filled-label-text-color: black,
+    filled-container-shape: var(--mat-sys-corner-full),
   ));
 
   @include mat.snack-bar-overrides((

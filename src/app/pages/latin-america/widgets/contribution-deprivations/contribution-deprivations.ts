@@ -1,8 +1,8 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, ElementRef, viewChild, inject, PLATFORM_ID, computed, effect } from '@angular/core';
 import Chart from 'chart.js/auto';
-import { DashboardService } from '../../../../core/services/dashboard.service';
 import { DeprivationsItem } from '../../../../interfaces/ipm.interface';
+import { LatinAmericaService } from '../../../../core/services/dashboard-services/latin-america.service';
 
 @Component({
   selector: 'app-contribution-deprivations',
@@ -11,7 +11,7 @@ import { DeprivationsItem } from '../../../../interfaces/ipm.interface';
   styleUrl: './contribution-deprivations.css',
 })
 export class ContributionDeprivations {
-  private dashboardService = inject(DashboardService);
+  private dashboardService = inject(LatinAmericaService);
   private platformId = inject(PLATFORM_ID);
 
   chartElement = viewChild<ElementRef<HTMLCanvasElement>>('Chart');
