@@ -1,7 +1,7 @@
 import { Component, inject, computed, input, effect, PLATFORM_ID, viewChild, ElementRef } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { DashboardService } from '../../../../core/services/dashboard.service';
 import { Chart } from 'chart.js';
+import { ColNationalService } from '../../../../core/services/dashboard-services/col-national.service';
 
 @Component({
   selector: 'app-contributions-impact',
@@ -10,7 +10,7 @@ import { Chart } from 'chart.js';
   styleUrl: './contributions-impact.css',
 })
 export class ContributionsImpact {
-  private dashboardService = inject(DashboardService);
+  private dashboardService = inject(ColNationalService);
   private platformId = inject(PLATFORM_ID);
 
   chartElement = viewChild<ElementRef<HTMLCanvasElement>>('Chart');
@@ -40,15 +40,15 @@ export class ContributionsImpact {
 
   private initChart(canvas: HTMLCanvasElement) {
     const items = this.data();
-    const labels = items.map((item) => item.dominio);
+    const labels = items.map((item) => item.dimension);
     const values: number[] = items.map((item) => Number(item.porcentaje));
     this.chartInstance = new Chart(canvas, {
       type: 'pie',
       data: {
-        labels: ['Educación', 'Niñez y juventud', 'Trabajo', 'Salud', 'Vivienda'],
+        labels: labels,
         datasets: [{
           label: 'IPM (%)',
-          data: [10, 20, 43, 98, 56],
+          data: values,
           backgroundColor: [
             'rgb(255, 99, 133)',
             'rgb(255, 160, 64)',
@@ -74,7 +74,7 @@ export class ContributionsImpact {
     if (!this.chartInstance) return;
 
     // Extraer nombres de dominios para los Labels
-    const labels = items.map(item => item.dominio);
+    const labels = items.map(item => item.dimension);
 
     // Extraer valores del IPM para las Barras
     const dataValues = items.map(item => Number(item.porcentaje));

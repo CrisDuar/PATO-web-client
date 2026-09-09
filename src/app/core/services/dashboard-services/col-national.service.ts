@@ -1,18 +1,17 @@
 import { Service, signal, inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { PmiApiResponse, DeprivationsItem, WidgetItem, IntensityPovertyItem } from '../../interfaces/ipm.interface';
-import { environment } from '../../../environments/environment.development';
-import { RadarDeprivations } from '../../pages/col-national/widgets/radar-deprivations/radar-deprivations';
+import { PmiApiResponse, DeprivationsItem, WidgetItem, IntensityPovertyItem, ContributionImpactItem, MpiSexItem, MpiBossSexItem } from '../../../interfaces/ipm.interface';
+import { environment } from '../../../../environments/environment.development';
+import { RadarDeprivations } from '../../../pages/col-national/widgets/radar-deprivations/radar-deprivations';
 import { isPlatformBrowser } from '@angular/common';
-import { IntensityPoverty } from '../../pages/col-national/widgets/intensity-poverty/intensity-poverty';
-import { ContributionsImpact } from '../../pages/col-national/widgets/contributions-impact/contributions-impact';
-import { Mpi } from '../../pages/col-national/widgets/mpi/mpi';
-import { MpiSex } from '../../pages/col-national/widgets/mpi-sex/mpi-sex';
-import { MpiBossSex } from '../../pages/col-national/widgets/mpi-boss-sex/mpi-boss-sex';
-
+import { IntensityPoverty } from '../../../pages/col-national/widgets/intensity-poverty/intensity-poverty';
+import { ContributionsImpact } from '../../../pages/col-national/widgets/contributions-impact/contributions-impact';
+import { Mpi } from '../../../pages/col-national/widgets/mpi/mpi';
+import { MpiSex } from '../../../pages/col-national/widgets/mpi-sex/mpi-sex';
+import { MpiBossSex } from '../../../pages/col-national/widgets/mpi-boss-sex/mpi-boss-sex';
 
 @Service()
-export class DashboardService {
+export class ColNationalService {
     private httpClient = inject(HttpClient);
     private platformId = inject(PLATFORM_ID);
 
@@ -93,9 +92,71 @@ export class DashboardService {
 
     }
 
-    contributionImpactData = signal<IntensityPovertyItem[]>([]);
-    loadContributionsImpact(){
-        
+    contributionImpactData = signal<ContributionImpactItem[]>([]);
+    private constribution_URL = `${environment.apiAddr}/api/users/dimension-contribution`;
+
+    loadContributionsImpact(domain: string, year: number | string) {
+        if (!isPlatformBrowser(this.platformId)) return;
+        this.httpClient.get<ContributionImpactItem[]>(this.constribution_URL).subscribe({
+            next: (data) => {
+                if (!data || data.length === 0) return;
+
+                const filteredData = data.filter(
+                    (d) =>
+                        d.dominio?.toLowerCase().trim() === String(domain).toLowerCase().trim() &&
+                        Number(d.anio) === Number(year)
+                );
+
+                this.contributionImpactData.set(filteredData);
+            },
+
+            error: (err) => console.error('Error al cargar contribuciones:', err),
+
+        });
     }
 
-} 
+    private mpi_sex_url = `${environment.apiAddr}/api/users/incidence-by-person-sex`;
+    mpiSexData = signal<MpiSexItem[]>([]);
+
+    loadIpmSexData(domain: string) {
+        if (!isPlatformBrowser(this.platformId)) return;
+
+        this.httpClient.get<MpiSexItem[]>(this.mpi_sex_url).subscribe({
+            next: (data) => {
+                if (!data || data.length === 0) return;
+
+                // Filtrar los dominios que pertenecen al dominio seleccionado
+                const filteredData = data.filter(
+                    (d) =>
+                        d.dominio?.toLowerCase().trim() === String(domain).toLowerCase().trim()
+                );
+
+                this.mpiSexData.set(filteredData);
+            },
+            error: (err) => console.error('Error al cargar datos IPM:', err),
+        });
+    }
+
+    private mpi_boss_sex_url = `${environment.apiAddr}/api/users/incidence-by-household-head-sex`;
+    mpiBossSexData = signal<MpiBossSexItem[]>([]);
+
+    loadIpmBossSexData(domain: string) {
+        if (!isPlatformBrowser(this.platformId)) return;
+
+        this.httpClient.get<MpiBossSexItem[]>(this.mpi_boss_sex_url).subscribe({
+            next: (data) => {
+                if (!data || data.length === 0) return;
+
+                // Filtrar los dominios que pertenecen al dominio seleccionado
+                const filteredData = data.filter(
+                    (d) =>
+                        d.dominio?.toLowerCase().trim() === String(domain).toLowerCase().trim()
+                );
+
+                this.mpiBossSexData.set(filteredData);
+            },
+            error: (err) => console.error('Error al cargar datos IPM:', err),
+        });
+    }
+
+}

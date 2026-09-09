@@ -2,7 +2,6 @@ import { Component, inject, signal, effect } from '@angular/core';
 import { NgComponentOutlet } from '@angular/common';
 import { Widget } from '../../components/widget/widget';
 import { Navbar } from '../../components/navbar/navbar';
-import { DashboardService } from '../../core/services/dashboard.service';
 import { isPlatformBrowser } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';

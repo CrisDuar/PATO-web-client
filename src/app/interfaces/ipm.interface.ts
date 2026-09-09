@@ -24,3 +24,24 @@ export interface IntensityPovertyItem {
     dominio: string;
     porcentaje: string;
 }
+
+export interface ContributionImpactItem {
+    anio: number;
+    dominio: string;
+    dimension: string;
+    porcentaje: string;
+}
+
+export interface MpiSexItem {
+    anio: number;
+    dominio: string;
+    sexo: string;
+    porcentaje: string;
+}
+
+export interface MpiBossSexItem {
+    anio: number;
+    dominio: string;
+    sexo: string;
+    porcentaje: string;
+}

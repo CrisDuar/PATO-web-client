@@ -1,7 +1,7 @@
 import { Component, inject, computed, input, effect, PLATFORM_ID, viewChild, ElementRef } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { DashboardService } from '../../../../core/services/dashboard.service';
 import { Chart } from 'chart.js';
+import { ColNationalService } from '../../../../core/services/dashboard-services/col-national.service';
 
 @Component({
   selector: 'app-mpi-boss-sex',
@@ -10,13 +10,13 @@ import { Chart } from 'chart.js';
   styleUrl: './mpi-boss-sex.css',
 })
 export class MpiBossSex {
-  private dashboardService = inject(DashboardService);
+  private dashboardService = inject(ColNationalService);
   private platformId = inject(PLATFORM_ID);
 
   chartElement = viewChild<ElementRef<HTMLCanvasElement>>('Chart');
   private chartInstance?: Chart;
 
-  data = computed(() => this.dashboardService.contributionImpactData());
+  data = computed(() => this.dashboardService.mpiBossSexData());
 
   constructor() {
     effect(() => {
@@ -40,35 +40,21 @@ export class MpiBossSex {
 
   private initChart(canvas: HTMLCanvasElement) {
     const items = this.data();
-    const labels = items.map((item) => item.dominio);
-    const values: number[] = items.map((item) => Number(item.porcentaje));
+    const menData = this.extractMenData(items);
+    const womenData = this.extractWomenData(items);
     this.chartInstance = new Chart(canvas, {
       type: 'scatter',
       data: {
         datasets: [
           {
             label: 'Hombres',
-            data: [
-              { x: 2020, y: 45 },
-              { x: 2021, y: 23 },
-              { x: 2022, y: 76 },
-              { x: 2023, y: 45 },
-              { x: 2024, y: 98 },
-              { x: 2025, y: 23 }
-            ],
+            data: menData,
             backgroundColor: 'rgba(54, 162, 235, 1)',
             pointRadius: 7
           },
           {
             label: 'Mujeres',
-            data: [
-              { x: 2020, y: 23 },
-              { x: 2021, y: 12 },
-              { x: 2022, y: 3 },
-              { x: 2023, y: 2 },
-              { x: 2024, y: 4 },
-              { x: 2025, y: 34 }
-            ],
+            data: womenData,
             backgroundColor: 'rgba(255, 99, 132, 1)',
             pointRadius: 7
           }
@@ -107,15 +93,36 @@ export class MpiBossSex {
   private updateChartData(items: any[]) {
     if (!this.chartInstance) return;
 
-    // Extraer nombres de dominios para los Labels
-    const labels = items.map(item => item.dominio);
+    // Filtrar puntos para hombres y muejeres
+    const menData = this.extractMenData(items);
+    const womenData = this.extractWomenData(items);
 
-    // Extraer valores del IPM para las Barras
-    const dataValues = items.map(item => Number(item.porcentaje));
 
     // Actualizar y renderizar la gráfica
-    this.chartInstance.data.labels = labels;
-    this.chartInstance.data.datasets[0].data = dataValues;
+    this.chartInstance.data.datasets[0].data = menData;
+    this.chartInstance.data.datasets[1].data = womenData;
     this.chartInstance.update();
   }
+
+  private extractMenData(items: any[]) {
+    const menData = items
+      .filter((item) => item.sexo === 'Hombre')
+      .map((item) => ({
+        x: Number(item.anio),
+        y: Number(item.porcentaje)
+      }));
+
+    return menData;
+  };
+
+  private extractWomenData(items: any[]) {
+    const womenData = items
+      .filter((item) => item.sexo === 'Mujer')
+      .map((item) => ({
+        x: Number(item.anio),
+        y: Number(item.porcentaje)
+      }));
+
+    return womenData;
+  };
 }
