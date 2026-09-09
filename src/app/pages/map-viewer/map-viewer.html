@@ -3,14 +3,14 @@
 
   <div class="flex flex-1 overflow-hidden">
     <app-sidebar-map
-      [location]="currentLocation()"
-      (locationChange)="onLocationChange($event)">
+      [selection]="currentSelection()"
+      (selectionChange)="onSelectionChange($event)">
     </app-sidebar-map>
 
     <main class="flex-1 relative bg-gray-100">
       <app-map-element
-        [location]="currentLocation()"
-        (locationChange)="onLocationChange($event)">
+        [location]="currentSelection().locations[0]"
+        (locationChange)="onMapLocationChange($event)">
       </app-map-element>
     </main>
   </div>
