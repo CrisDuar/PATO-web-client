@@ -6,7 +6,7 @@ import type * as L from 'leaflet';
 import type { Feature, FeatureCollection } from 'geojson';
 import type { LocationSelection } from '../sidebar-map/sidebar-map';
 import { GeoDataService } from '../../core/services/geo-data-service';
-import { dptName } from '../../core/models/department-model';
+import { dptName } from '../../interfaces/department-model';
 import { LocationService } from '../../core/services/location.service';
 
 

@@ -1,56 +1,139 @@
-<aside class="w-64 h-full bg-white border-r border-gray-200 p-4 overflow-y-auto">
-  <div class="p-4 border-b border-gray-200">
-    <p class="sidebar-title">Filtrar por indicador</p>
+<aside class="map-sidebar">
+  <div class="sidebar-heading">
+    <p class="sidebar-title">Filtros</p>
   </div>
 
-  <select
-    [value]="location()?.pais ?? ''"
-    (change)="onCountryChange($any($event.target).value || null)"
-  >
-    <option value="">Seleccione país</option>
-
-    @for (country of paises(); track country) {
-      <option [value]="country">{{ country }}</option>
-    }
-  </select>
-
-  @if (location()?.pais === 'Colombia') {
-    @switch (status()) {
-      @case ('loading') {
-        <p>Cargando regiones...</p>
-      }
-
-      @case ('error') {
-        <p class="error">{{ locationService.error() }}</p>
-      }
-
-      @case ('loaded') {
-        <select
-          [value]="location()?.region ?? ''"
-          (change)="onRegionChange($any($event.target).value || null)"
-        >
-          <option value="">Todas las regiones</option>
-
-          @for (region of regions(); track region) {
-            <option [value]="region">{{ region }}</option>
-          }
-        </select>
-
-        @if (departamentos().length) {
-          <select
-            [value]="location()?.departamento ?? ''"
-            (change)="onDepartmentChange($any($event.target).value || null)"
-          >
-            <option value="">Seleccione departamento</option>
-
-            @for (department of departamentos(); track department.code) {
-              <option [value]="department.code">
-                {{ department.name }}
-              </option>
-            }
-          </select>
+  <section class="filter-group" aria-labelledby="ipm-filter-title">
+    <h2 id="ipm-filter-title" class="filter-title">Indicador IPM</h2>
+    <mat-form-field appearance="outline" class="compact-field">
+      <mat-label>Año</mat-label>
+      <mat-select
+        [value]="selection()?.ipm?.year ?? selectedYear()"
+        (selectionChange)="onYearChange($event.value)"
+      >
+        @for (year of years; track year) {
+          <mat-option [value]="year">{{ year }}</mat-option>
         }
-      }
+      </mat-select>
+    </mat-form-field>
+  </section>
+
+  <section class="filter-group" aria-labelledby="domain-filter-title">
+    <h2 id="domain-filter-title" class="filter-title">Dominio</h2>
+    <mat-form-field appearance="outline" class="compact-field">
+      <mat-select [value]="mode()" (selectionChange)="onModeSelection($event.value)">
+        <mat-option value="local">Nacional</mat-option>
+        <mat-option value="international">Internacional</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </section>
+
+  <section class="location-section" aria-labelledby="location-title">
+    <h2 id="location-title" class="filter-title">Ubicación</h2>
+
+    @if (mode() === 'local') {
+      <div class="location-card">
+        <span class="location-title">Colombia</span>
+        <span class="location-help">Evaluar por:</span>
+        <mat-form-field appearance="outline" class="compact-field">
+          <mat-label>Nivel de evaluación</mat-label>
+          <mat-select [value]="localLevel()" (selectionChange)="onLevelSelection($event.value)">
+            <mat-option value="region">Región</mat-option>
+            <mat-option value="department">Departamento</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        @switch (status()) {
+          @case ('loading') {
+            <p class="status-message">Cargando ubicaciones...</p>
+          }
+          @case ('error') {
+            <p class="status-message error">{{ locationService.error() }}</p>
+          }
+          @case ('loaded') {
+            @if (localLevel() === 'region') {
+              @for (location of selection()?.locations ?? []; track $index) {
+                <div class="location-row">
+                  <div class="location-control">
+                    <mat-form-field appearance="outline" class="compact-field">
+                      <mat-label>Región {{ $index + 1 }}</mat-label>
+                      <mat-select [value]="location.region ?? ''" (selectionChange)="onRegionChange($index, $event.value || null)">
+                        <mat-option value="">Seleccione región</mat-option>
+                        @for (region of regions(); track region) {
+                          <mat-option [value]="region">{{ region }}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+                    @if ((selection()?.locations?.length ?? 0) > 1) {
+                      <button type="button" class="remove-location" (click)="removeLocation($index)" aria-label="Eliminar región">×</button>
+                    }
+                  </div>
+                </div>
+              }
+            } @else {
+              @for (location of selection()?.locations ?? []; track $index) {
+                <div class="location-row">
+                  <div class="location-control">
+                    <mat-form-field appearance="outline" class="compact-field">
+                      <mat-label>Departamento {{ $index + 1 }}</mat-label>
+                      <mat-select [value]="location.departamento ?? ''" (selectionChange)="onDepartmentChange($index, $event.value || null)">
+                        <mat-option value="">Seleccione departamento</mat-option>
+                        @for (department of departamentos(); track department.code) {
+                          <mat-option [value]="department.code">{{ department.name }}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+                    @if ((selection()?.locations?.length ?? 0) > 1) {
+                      <button type="button" class="remove-location" (click)="removeLocation($index)" aria-label="Eliminar departamento">×</button>
+                    }
+                  </div>
+                </div>
+              }
+            }
+            <button type="button" class="add-location" (click)="addLocation()">+ Agregar ubicación</button>
+          }
+        }
+      </div>
+    } @else {
+      <div class="location-card comparison-card">
+        <span class="location-help">Agregue los países que desea comparar</span>
+        @for (location of selection()?.locations ?? []; track $index) {
+          <div class="location-row">
+          <div class="location-control">
+            <mat-form-field appearance="outline" class="compact-field">
+              <mat-label>País {{ $index + 1 }}</mat-label>
+              <mat-select [value]="location.pais ?? ''" (selectionChange)="onCountryChange($index, $event.value || null)">
+                <mat-option value="">Seleccione país</mat-option>
+                @for (country of paises(); track country) {
+                  <mat-option [value]="country">{{ country }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            @if ((selection()?.locations?.length ?? 0) > 1) {
+              <button type="button" class="remove-location" (click)="removeLocation($index)" aria-label="Eliminar país">×</button>
+            }
+          </div>
+          </div>
+        }
+        <button type="button" class="add-location" (click)="addLocation()">+ Agregar país</button>
+      </div>
     }
-  }
+  </section>
+
+  <details class="deprivation-picker">
+    <summary class="deprivation-trigger">Filtrar por privación</summary>
+    <div class="deprivation-panel" role="group" aria-label="Privaciones disponibles">
+      <div class="source-switch" role="group" aria-label="Fuente de privaciones">
+        <button type="button" class="source-option" [class.is-active]="deprivationSource() === 'dane'" (click)="onSourceChange('dane')">DANE</button>
+        <button type="button" class="source-option" [class.is-active]="deprivationSource() === 'cepal'" (click)="onSourceChange('cepal')">CEPAL</button>
+      </div>
+      <span class="filter-label">Seleccione una o varias</span>
+      @for (deprivation of activeDeprivations; track deprivation) {
+        <label class="toggle-row" [title]="deprivation">
+          <input type="checkbox" [checked]="isDeprivationSelected(deprivation)" (change)="onDeprivationChange(deprivation)" />
+          <span>{{ deprivationLabels[deprivation] ?? deprivation }}</span>
+        </label>
+      }
+    </div>
+  </details>
 </aside>

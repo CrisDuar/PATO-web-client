@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { Navbar } from '../../components/navbar/navbar';
-import { LocationSelection, Sidebar } from '../../components/sidebar-map/sidebar-map';
+import { LocationSelection, MapSelection, Sidebar } from '../../components/sidebar-map/sidebar-map';
 import { MapElementComponent } from '../../components/map-element/map-element';
 
 @Component({
@@ -11,15 +11,29 @@ import { MapElementComponent } from '../../components/map-element/map-element';
 })
 export class MapViewer {
   
-  currentLocation = signal<LocationSelection>({
-    pais: null,
-    region: null,
-    departamento: null
+  currentSelection = signal<MapSelection>({
+    locations: [this.emptyLocation()],
+    ipm: {
+      year: 2020,
+      deprivation: [],
+      source: 'dane',
+    },
+    domain: 'national',
+    granularity: 'region',
   });
 
-  onLocationChange(location: LocationSelection) {
-    this.currentLocation.set(location);
+  onSelectionChange(selection: MapSelection): void {
+    this.currentSelection.set(selection);
   }
 
+  onMapLocationChange(location: LocationSelection): void {
+    this.currentSelection.update(current => ({
+      ...current,
+      locations: [location, current.locations[1]],
+    }));
+  }
 
+  private emptyLocation(): LocationSelection {
+    return { pais: null, region: null, departamento: null };
+  }
 }
