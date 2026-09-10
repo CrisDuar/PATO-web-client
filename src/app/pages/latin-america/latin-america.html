@@ -14,7 +14,7 @@
             <div class="fields-row">
                 <mat-form-field appearance="outline" class="compact-field">
                     <mat-label>Año</mat-label>
-                    <mat-select [(value)]="selectedYear">
+                    <mat-select [(value)]="year">
                         @for (year of years(); track year) {
                         <mat-option [value]="year">{{ year }}</mat-option>
                         }
@@ -22,7 +22,7 @@
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="compact-field">
                     <mat-label>País</mat-label>
-                    <mat-select [(value)]="selectedCountry">
+                    <mat-select [(value)]="country">
                         @for (country of countries(); track country) {
                         <mat-option [value]="country">{{ country}}</mat-option>
                         }
@@ -37,7 +37,7 @@
             <div class="fields-row">
                 <mat-form-field appearance="outline" class="compact-field">
                     <mat-label>Año</mat-label>
-                    <mat-select [(value)]="selectedYear2">
+                    <mat-select [(value)]="year2">
                         @for (year of years(); track year) {
                         <mat-option [value]="year">{{ year }}</mat-option>
                         }
@@ -45,7 +45,7 @@
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="compact-field">
                     <mat-label>Área geográfica</mat-label>
-                    <mat-select [(value)]="selectedArea">
+                    <mat-select [(value)]="area">
                         @for (area of areas(); track area) {
                         <mat-option [value]="area">{{ area }}</mat-option>
                         }
@@ -54,7 +54,7 @@
                 </div>
                 <mat-form-field appearance="outline" class="compact-field">
                     <mat-label>País</mat-label>
-                    <mat-select [(value)]="selectedCountry2">
+                    <mat-select [(value)]="country2">
                         @for (country of countries(); track country) {
                         <mat-option [value]="country">{{ country}}</mat-option>
                         }

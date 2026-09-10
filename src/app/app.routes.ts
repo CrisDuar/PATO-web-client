@@ -16,7 +16,7 @@ import { ColDept } from './pages/col-dept/col-dept';
 export const routes: Routes = [
   {path:'register', component: Registry},
   {path:'accountRecovery', component: FindAccount},
-  {path: '', component: Login},
+  {path: '', component: LatinAmerica},
   {path: 'col', component: ColNational},
   {path: 'col-dept', component: ColDept},
   {path: 'latin', component: LatinAmerica},

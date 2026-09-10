@@ -38,13 +38,25 @@ export class LatinAmerica {
     ]
   );
 
-  selectedYear = signal<number>(2010);
-  selectedYear2 = signal<number>(2010);
-  selectedCountry = signal<string>('Colombia');
-  selectedCountry2 = signal<string>('Colombia');
-  selectedArea = signal<string>('Nacional');
+  year = signal<number>(2010);
+  year2 = signal<number>(2010);
+  country = signal<string>('Argentina');
+  country2 = signal<string>('Argentina');
+  area = signal<string>('Nacional');
+
 
   constructor() {
+    effect(() => {
+      const year = this.year();
+      const year2 = this.year2();
+      const country = this.country();
+      const country2 = this.country2();
+      const area = this.area();
+
+      this.dashboardService.loadContributionData(year, country);
+      this.dashboardService.loadPopulationPoveryData(year2, country2, area);
+
+    });
   }
 
 }
