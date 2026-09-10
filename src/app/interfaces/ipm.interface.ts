@@ -45,3 +45,18 @@ export interface MpiBossSexItem {
     sexo: string;
     porcentaje: string;
 }
+
+export interface ContributionPovertyItem {
+    anio: number;
+    privacion: string;
+    pais: string;
+    porcentaje: number;
+}
+
+export interface PopulationPovertyItem {
+    anio: number;
+    area_geografica: string;
+    pais: string;
+    grupo_erario: string;
+    valor_porcentaje: number;
+}
