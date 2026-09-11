@@ -1,1 +1,88 @@
 <app-navbar></app-navbar>
+
+<main class="chatbot-shell" aria-label="Chatbot">
+	<aside class="chat-sidebar">
+		<button class="new-chat-button" type="button">
+			<svg class="sidebar-action-icon" viewBox="0 0 24 24" aria-hidden="true">
+				<path d="M22.853,1.148a3.626,3.626,0,0,0-5.124,0L1.465,17.412A4.968,4.968,0,0,0,0,20.947V23a1,1,0,0,0,1,1H3.053a4.966,4.966,0,0,0,3.535-1.464L22.853,6.271A3.626,3.626,0,0,0,22.853,1.148ZM5.174,21.122A3.022,3.022,0,0,1,3.053,22H2V20.947a2.98,2.98,0,0,1,.879-2.121L15.222,6.483l2.3,2.3ZM21.438,4.857,18.932,7.364l-2.3-2.295,2.507-2.507a1.623,1.623,0,1,1,2.295,2.3Z" />
+			</svg>
+			<span>Nueva conversación</span>
+		</button>
+
+		<button class="search-chat-button" type="button">
+			<svg class="sidebar-action-icon" viewBox="0 0 24 24" aria-hidden="true">
+				<path d="M23.707,22.293l-5.969-5.969a10.016,10.016,0,1,0-1.414,1.414l5.969,5.969a1,1,0,0,0,1.414-1.414ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z" />
+			</svg>
+			<span>Buscar chat</span>
+		</button>
+
+		<div class="sidebar-section">
+			<p class="sidebar-label">Historial de chats</p>
+			@for (conversation of conversations; track conversation) {
+				<div class="conversation-row" [class.active-conversation-row]="activeConversation === conversation">
+					<button class="conversation" type="button" (click)="selectConversation(conversation)">
+						{{ conversation }}
+					</button>
+					<button
+						class="delete-conversation-button"
+						type="button"
+						aria-label="Eliminar conversación"
+						(click)="requestConversationDeletion(conversation)"
+					>
+						×
+					</button>
+				</div>
+			}
+		</div>
+	</aside>
+
+	<section class="chat-content">
+		<div class="chat-stage">
+			<div class="welcome-copy">
+				<h1>¿Qué planificarás hoy?</h1>
+			</div>
+
+			<!-- PLACEHOLDER IMAGEN GRANDE: reemplazar este bloque por la imagen o visualización. -->
+			<div class="image-placeholder" aria-label="Placeholder para imagen grande">
+				<span class="placeholder-icon" aria-hidden="true">▧</span>
+				<strong>PLACEHOLDER </strong>
+				<small>Área reservada para el pato sin nombre</small>
+			</div>
+
+			<div class="composer-area">
+				<form class="composer" (ngSubmit)="submitQuestion()">
+					<input
+						type="text"
+						class="composer-input"
+						name="question"
+						[(ngModel)]="question"
+						autocomplete="off"
+						placeholder="Escribe tu pregunta..."
+						aria-label="Escribe tu pregunta"
+					/>
+					<button class="send-button" type="submit" aria-label="Enviar mensaje">↑</button>
+				</form>
+				<p class="composer-note">El asistente de chatbot puede cometer errores. Verifica la información importante.</p>
+			</div>
+		</div>
+	</section>
+</main>
+
+@if (conversationToDelete) {
+	<div class="modal-backdrop" (click)="cancelConversationDeletion()">
+		<section
+			class="delete-modal"
+			role="dialog"
+			aria-modal="true"
+			aria-labelledby="delete-modal-title"
+			(click)="$event.stopPropagation()"
+		>
+			<h2 id="delete-modal-title">¿Eliminar conversación?</h2>
+			<p>Esta conversación se eliminará del historial.</p>
+			<div class="modal-actions">
+				<button class="modal-cancel-button" type="button" (click)="cancelConversationDeletion()">Cancelar</button>
+				<button class="modal-delete-button" type="button" (click)="confirmConversationDeletion()">Eliminar</button>
+			</div>
+		</section>
+	</div>
+}
