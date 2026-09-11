@@ -8,5 +8,38 @@
             <h2>Filtros</h2>
         </div>
 
+        <div class="filter-group">
+            <span class="filter-title">Predicciones</span>
+            <br>
+            <div class="fields-row">
+                <mat-form-field appearance="outline" class="compact-field">
+                    <mat-label>Año inicio</mat-label>
+                    <mat-select [(value)]="year">
+                        @for (year of availableYears(); track year) {
+                        <mat-option [value]="year">{{ year }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="compact-field">
+                    <mat-label>Año fin</mat-label>
+                    <mat-select [(value)]="year2">
+                        @for (year of availableYears(); track year) {
+                        <mat-option [value]="year">{{ year }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <mat-form-field appearance="outline" class="compact-field">
+                    <mat-label>Categoría ipm</mat-label>
+                    <mat-select [(value)]="mpi">
+                        @for (mpi of availableMpi(); track mpi) {
+                        <mat-option [value]="mpi">{{ mpi }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+        </div>
+
         </aside>
 </div>
