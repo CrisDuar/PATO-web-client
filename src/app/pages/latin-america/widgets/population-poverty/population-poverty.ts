@@ -16,11 +16,11 @@ export class PopulationPoverty {
   chartElement = viewChild<ElementRef<HTMLCanvasElement>>('Chart');
   private chartInstance?: Chart;
 
-  data = computed(() => this.dashboardService.pmiData());
+  populationData = this.dashboardService.populationData;
 
   constructor() {
     effect(() => {
-      const items = this.data();
+      const items = this.populationData();
       if (this.chartInstance && items && items.length > 0) {
         this.updateChartData(items);
       }
@@ -39,18 +39,18 @@ export class PopulationPoverty {
   }
 
   private initChart(canvas: HTMLCanvasElement) {
-    const items = this.data();
-    const labels = items.map((item) => item.dominio);
-    const values: number[] = items.map((item) => Number(item.ipm));
+    const items = this.populationData();
+    const labels = items.map((item) => item.grupo_erario);
+    const values: number[] = items.map((item) => Number(item.valor_porcentaje));
 
     this.chartInstance = new Chart(canvas, {
       type: 'bar',
       data: {
-        labels: ['Incidencia', 'Intensidad', 'Incidencia ajustada'],
+        labels: labels,
         datasets: [
           {
             label: 'IPM (%)',
-            data: [10.06, 25.64, 2.57],
+            data: values,
             backgroundColor: [
               'rgb(255, 99, 133)',
               'rgb(255, 160, 64)',
@@ -83,10 +83,10 @@ export class PopulationPoverty {
     if (!this.chartInstance) return;
 
     // Extraer nombres de dominios para los Labels
-    const labels = items.map(item => item.dominio);
+    const labels = items.map(item => item.grupo_erario);
 
     // Extraer valores del IPM para las Barras
-    const dataValues = items.map(item => Number(item.ipm));
+    const dataValues = items.map(item => Number(item.valor_porcentaje));
 
     // Actualizar y renderizar la gráfica
     this.chartInstance.data.labels = labels;
@@ -94,3 +94,4 @@ export class PopulationPoverty {
     this.chartInstance.update();
   }
 }
+  

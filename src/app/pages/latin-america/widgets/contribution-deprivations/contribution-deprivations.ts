@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, ElementRef, viewChild, inject, PLATFORM_ID, computed, effect } from '@angular/core';
 import Chart from 'chart.js/auto';
-import { DeprivationsItem } from '../../../../interfaces/ipm.interface';
+import { ContributionPovertyItem, DeprivationsItem } from '../../../../interfaces/ipm.interface';
 import { LatinAmericaService } from '../../../../core/services/dashboard-services/latin-america.service';
 
 @Component({
@@ -17,11 +17,11 @@ export class ContributionDeprivations {
   chartElement = viewChild<ElementRef<HTMLCanvasElement>>('Chart');
   private chartInstance?: Chart;
 
-  ipmData = computed(() => this.dashboardService.deprivationsData());
+  contributionData = this.dashboardService.contributionData;
 
   constructor() {
     effect(() => {
-      const items = this.ipmData();
+      const items = this.contributionData();
       if (this.chartInstance && items.length > 0) {
         this.updateChartData(items);
       }
@@ -40,20 +40,20 @@ export class ContributionDeprivations {
   }
 
   private initChart(canvas: HTMLCanvasElement) {
-    const items = this.ipmData();
-    const labels = items.map((item) => item.variable);
-    const values = items.map((item) => item.ipm);
-    const domainName = items[0]?.dominio || 'Nacional';
+    const items = this.contributionData();
+    const labels = items.map((item) => item.privacion);
+    const values = items.map((item) => item.porcentaje);
+    const domainName = items[0]?.pais || 'Nacional';
     const yearVal = items[0]?.anio || '';
 
     this.chartInstance = new Chart(canvas, {
     type: 'radar',
     data: {
-      labels: ['Acceso a internet', 'Agua', 'Analfabetismo'],
+      labels: labels,
       datasets: [
         {
           label: `${domainName} (${yearVal})`,
-          data: [11.4, 4, 7],
+          data: values,
           fill: true,
           backgroundColor: 'rgba(212, 111, 162, 0.25)', 
           borderColor: '#d14b99',
@@ -100,12 +100,12 @@ export class ContributionDeprivations {
   });
   }
 
-  private updateChartData(items: DeprivationsItem[]) {
+  private updateChartData(items: ContributionPovertyItem[]) {
     if (!this.chartInstance) return;
 
-    this.chartInstance.data.labels = items.map((item) => item.variable);
-    this.chartInstance.data.datasets[0].data = items.map((item) => item.ipm);
-    this.chartInstance.data.datasets[0].label = `Privaciones - ${items[0]?.dominio} (${items[0]?.anio})`;
+    this.chartInstance.data.labels = items.map((item) => item.privacion);
+    this.chartInstance.data.datasets[0].data = items.map((item) => item.porcentaje);
+    this.chartInstance.data.datasets[0].label = `Privaciones - ${items[0]?.pais} (${items[0]?.anio})`;
 
     this.chartInstance.update();
   }

@@ -52,7 +52,7 @@ export class RadarDeprivations {
       labels: labels,
       datasets: [
         {
-          label: `${domainName} (${yearVal})`,
+          label: `Privaciones - ${domainName} (${yearVal})`,
           data: values,
           fill: true,
           backgroundColor: 'rgba(212, 111, 162, 0.25)', 

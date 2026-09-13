@@ -1,6 +1,6 @@
 import { Service, signal, inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { PmiApiResponse, DeprivationsItem, WidgetItem, IntensityPovertyItem } from '../../../interfaces/ipm.interface';
+import { PmiApiResponse, DeprivationsItem, WidgetItem, IntensityPovertyItem, ContributionPovertyItem, PopulationPovertyItem } from '../../../interfaces/ipm.interface';
 import { environment } from '../../../../environments/environment.development';
 import { RadarDeprivations } from '../../../pages/col-national/widgets/radar-deprivations/radar-deprivations';
 import { isPlatformBrowser } from '@angular/common';
@@ -22,48 +22,56 @@ export class LatinAmericaService {
 
     ]);
 
-    private IPM_URL = `${environment.apiAddr}/api/users/ipm-by-domain`;
-    pmiData = signal<PmiApiResponse[]>([]);
+    private contribution_url = `${environment.apiAddr}/api/users/filtered/multi`;
+    contributionData = signal<ContributionPovertyItem[]>([]);
 
-    loadIpmData(year: number | string = 2012) {
+    loadContributionData(year: number, country: string) {
         if (!isPlatformBrowser(this.platformId)) return;
 
-        this.httpClient.get<PmiApiResponse[]>(this.IPM_URL).subscribe({
+        const payload = {
+            viewName: 'vw_dashboard03_national_poverty',
+            filters: [
+                { columnName: 'anio', columnValue: year },
+                { columnName: 'pais', columnValue: country }
+            ]
+        };
+
+        this.httpClient.post<ContributionPovertyItem[]>(this.contribution_url, payload).subscribe({
             next: (data) => {
                 if (!data || data.length === 0) return;
 
-                // Filtrar los dominios que pertenecen al año seleccionado
-                const filteredData = data.filter(
-                    (d) => Number(d.anio) === Number(year)
-                );
-
-                this.pmiData.set(filteredData);
+                this.contributionData.set(data);
             },
+
             error: (err) => console.error('Error al cargar datos IPM:', err),
         });
     }
 
-    private DEPRIVATIONS_URL = `${environment.apiAddr}/api/users/deprivations-by-variable`;
-    deprivationsData = signal<DeprivationsItem[]>([]);
+    private populatin_url = `${environment.apiAddr}/api/users/filtered/multi`;
+    populationData = signal<PopulationPovertyItem[]>([]);
 
-    loadPrivationsData(domain = 'Nacional', year: number | string = 2010) {
+    loadPopulationPoveryData(year: number, country: string, area: string) {
         if (!isPlatformBrowser(this.platformId)) return;
 
-        this.httpClient.get<DeprivationsItem[]>(this.DEPRIVATIONS_URL).subscribe({
+        const payload = {
+            viewName: 'vw_dashboard03_poverty_by_age',
+            filters: [
+                { columnName: 'anio', columnValue: year },
+                { columnName: 'pais', columnValue: country },
+                { columnName: 'area_geografica', columnValue: area }
+            ]
+        };
+
+        this.httpClient.post<PopulationPovertyItem[]>(this.populatin_url, payload).subscribe({
             next: (data) => {
                 if (!data || data.length === 0) return;
 
-                // Filtrar TODAS las variables para ese dominio y año
-                const filtered = data.filter(
-                    (d) =>
-                        d.dominio?.toLowerCase().trim() === String(domain).toLowerCase().trim() &&
-                        Number(d.anio) === Number(year)
-                );
-
-                // Si hay coincidencias se guarda la lista, si no, fallback a los primeros datos
-                this.deprivationsData.set(filtered.length > 0 ? filtered : data);
+                this.populationData.set(data);
             },
-            error: (err) => console.error('Error al cargar privaciones:', err),
+
+            error: (err) => console.error('Error al cargar datos IPM:', err),
         });
     }
+
+
 }
