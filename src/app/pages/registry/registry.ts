@@ -131,7 +131,7 @@ export class Registry {
           duration: 3000,
           verticalPosition: 'bottom',
         });
-        this.router.navigate([''])
+        this.router.navigate(['verify-email'])
       },
       error: (err) => {
           console.error('Error al cambiar la cotraseña', err);

@@ -22,6 +22,9 @@
           <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
       </mat-form-field>
+      @if (errorMessage()) {
+      <mat-error>{{ errorMessage() }}</mat-error>
+      }
       <div class="flex">
         <button type="button" matButton="filled" class="submit-container" (click)="login()">Iniciar Sesión</button>
       </div>

@@ -1,7 +1,7 @@
 
 export interface User {
     id: string;
-    name: string;
+    username: string;
     email: string;
 }
 
@@ -12,7 +12,7 @@ export interface UpdateEmail {
 }
 
 export interface UpdateName {
-    name: string;
+    new_username: string;
 }
 
 export interface UpdatePassword {

@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import {MatMenuModule} from '@angular/material/menu';
 import { EditProfile } from '../edit-profile/edit-profile';
 import { MatDialog } from '@angular/material/dialog';
-import { Auth } from '../../core/services/auth';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -19,7 +19,7 @@ export class Navbar {
   readonly animal = signal(' ');
   readonly name = model(' ');
   readonly editProfile = inject(MatDialog);
-  private authService = inject(Auth);
+  private authService = inject(AuthService);
 
   // Abrir el modal de editar perfil
   openEditProfile(): void {

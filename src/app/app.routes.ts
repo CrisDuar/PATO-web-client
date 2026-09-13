@@ -12,19 +12,22 @@ import { ResetPassword } from './pages/reset-password/reset-password';
 import { ColNational } from './pages/col-national/col-national';
 import { LatinAmerica } from './pages/latin-america/latin-america';
 import { ColDept } from './pages/col-dept/col-dept';
+import { authGuard } from './core/guards/auth-guard';
+import { authenticatedGuard } from './core/guards/authenticated-guard';
 
 export const routes: Routes = [
-  {path:'register', component: Registry},
-  {path:'accountRecovery', component: FindAccount},
-  {path: '', component: LatinAmerica},
-  {path: 'col', component: ColNational},
-  {path: 'col-dept', component: ColDept},
-  {path: 'latin', component: LatinAmerica},
-  {path: 'map-viewer', component: MapViewer},
-  {path: 'chat-bot', component: ChatBOT},
-  {path: 'prediction-viewer', component: PredictionViewer},
-  {path: 'verify-email', component: VerifyEmail},
-  {path: 'reset-password', component: ResetPassword},
+  {path: '', redirectTo: 'login', pathMatch: 'full'},
+  {path:'register', component: Registry, canActivate: [authenticatedGuard]},
+  {path:'accountRecovery', component: FindAccount, canActivate: [authenticatedGuard]},
+  {path: 'login', component: Login, canActivate: [authenticatedGuard]},
+  {path: 'col', component: ColNational, canActivate: [authGuard]},
+  {path: 'col-dept', component: ColDept, canActivate: [authGuard]},
+  {path: 'latin', component: LatinAmerica, canActivate: [authGuard]},
+  {path: 'map-viewer', component: MapViewer, canActivate: [authGuard]},
+  {path: 'chat-bot', component: ChatBOT, canActivate: [authGuard]},
+  {path: 'prediction-viewer', component: PredictionViewer, canActivate: [authGuard]},
+  {path: 'verify-email', component: VerifyEmail, canActivate: [authenticatedGuard]},
+  {path: 'reset-password', component: ResetPassword, canActivate: [authenticatedGuard]},
   
 ];
 
