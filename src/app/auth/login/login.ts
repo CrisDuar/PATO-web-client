@@ -63,7 +63,7 @@ export class Login {
     this.authService.login(email, password).subscribe({
       next: () => this.router.navigate(['/map-viewer']),
       error: (err) => {
-        console.error('Login failed', err);
+        console.error('Error al iniciar sesión', err);
 
         if (err.status === 401 || err.status === 400) {
           this.errorMessage.set('Correo o contraseña incorrectos');
