@@ -12,7 +12,7 @@ import { Route, Router, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClient } from '@angular/common/http';
 import { error } from 'console';
-import { Auth } from '../../core/services/auth';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +32,8 @@ import { Auth } from '../../core/services/auth';
 })
 export class Login {
   private router = inject(Router);
-  private authService = inject(Auth);
+  private authService = inject(AuthService);
+  errorMessage = signal('');
 
   public formBuild = inject(FormBuilder);
 
@@ -49,18 +50,27 @@ export class Login {
   }
 
   login() {
+    this.errorMessage.set('');
+
     if (this.emailControl.invalid || this.passwordControl.invalid) {
       this.emailControl.markAsTouched();
       this.passwordControl.markAsTouched();
       return;
     }
-
     const email = this.emailControl.value!;
     const password = this.passwordControl.value!;
 
     this.authService.login(email, password).subscribe({
       next: () => this.router.navigate(['/map-viewer']),
-      error: (err) => console.error('Login failed', err)
+      error: (err) => {
+        console.error('Login failed', err);
+
+        if (err.status === 401 || err.status === 400) {
+          this.errorMessage.set('Correo o contraseña incorrectos');
+        } else {
+          this.errorMessage.set('Ocurrió un error en el servidor. Intenta nuevamente');
+        }
+      }
     })
 
   }

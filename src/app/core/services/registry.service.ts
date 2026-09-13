@@ -10,6 +10,7 @@ export class RegistryService {
     readonly registeredEmail = signal<string>('');
 
     registry(username: string, email: string, password: string, confirm_password: string) {
+        this.setEmail(email);
         return this.httpClient.post<any>(this.LOGIN_URL, {
             username,
             email,
@@ -18,7 +19,8 @@ export class RegistryService {
         });
     }
 
-    verifyEmail(email: string, token: string) {
+    verifyEmail(token: string) {
+        const email = this.registeredEmail();
         return this.httpClient.post<any>(this.URL_VERIFY, { email, token });
     }
 

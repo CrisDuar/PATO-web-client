@@ -15,7 +15,7 @@ export class UserService {
     }
 
     updateName(payload: UpdateName): Observable<any> {
-        return this.httpClient.patch(`${this.API_URL}/name`, payload);
+        return this.httpClient.patch(`${this.API_URL}/username`, payload);
     }
 
     updatePassword(payload: UpdatePassword): Observable<any> {
@@ -25,5 +25,10 @@ export class UserService {
     getProfile(): Observable<User> {
         return this.httpClient.get<User>(`${this.API_URL}/me`);
     }
+
+    getName(): Observable<User> {
+        return this.httpClient.get<User>(`${this.API_URL}/me`);
+    }
+
 
 }

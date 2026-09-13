@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-verify-email',
@@ -18,6 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 export class VerifyEmail {
   private registryService = inject(RegistryService);
   private router = inject(Router);
+  private snackBar = inject(MatSnackBar);
 
   email = this.registryService.registeredEmail;
   otpCode = signal('');
@@ -25,7 +27,6 @@ export class VerifyEmail {
 
   onVerifyToken() {
     const token = this.otpCode();
-    const currentEmail = this.email();
 
     // Limpia cualquier error previo antes de consultar
     this.errorMessage.set('');
@@ -35,8 +36,13 @@ export class VerifyEmail {
       return;
     }
 
-    this.registryService.verifyEmail(currentEmail, token).subscribe({
+    this.registryService.verifyEmail(token).subscribe({
       next: (res) => {
+        // Bocadillo de usuario actualizada con éxito
+        this.snackBar.open('¡Código verificado con éxito!', 'Cerrar', {
+          duration: 3000,
+          verticalPosition: 'bottom',
+        });
         // Redirigir al inicio de sesión al verificar con éxito
         this.router.navigate(['/login']);
       },
