@@ -7,16 +7,12 @@
 
 html {
   height: 100%;
-  @include mat.theme(
-    (
-      color: (
-        primary: mat.$azure-palette,
+  @include mat.theme((color: (primary: mat.$azure-palette,
         tertiary: mat.$blue-palette,
       ),
       typography: Inter,
       density: 0,
-    )
-  );
+    ));
 }
 
 body {
@@ -36,221 +32,216 @@ body {
   margin: 0;
   height: 100%;
 }
+
 :root {
-  @include mat.snack-bar-overrides((
-    button-color: #000000,
-    container-color: red,
-  ));
-  .campo-password {
-    @include mat.form-field-overrides((
-      outlined-container-shape: 1rem,
-      outlined-outline-color: #d1d5db,
-      outlined-focus-outline-color: #2dd4bf,
-      outlined-hover-outline-color: #2dd4bf,
-      outlined-label-text-color: #6b7280,
-      outlined-focus-label-text-color: #2dd4bf,
-      outlined-input-text-color: #111827,
-      outlined-input-text-placeholder-color: #9ca3af,
+  @include mat.snack-bar-overrides((button-color: #000000,
+      container-color: red,
     ));
+
+  .campo-password {
+    @include mat.form-field-overrides((outlined-container-shape: 1rem,
+        outlined-outline-color: #d1d5db,
+        outlined-focus-outline-color: #2dd4bf,
+        outlined-hover-outline-color: #2dd4bf,
+        outlined-label-text-color: #6b7280,
+        outlined-focus-label-text-color: #2dd4bf,
+        outlined-input-text-color: #111827,
+        outlined-input-text-placeholder-color: #9ca3af,
+      ));
   }
 
-  @include mat.toolbar-overrides((
-    container-background-color: #325754
-  ));
+  @include mat.toolbar-overrides((container-background-color: #325754));
 
-  @include mat.menu-overrides((
-    container-shape: 12px,
-    item-leading-spacing: 30px,
-    item-trailing-spacing: 30px,
-    container-color: #264240,
-    item-hover-state-layer-color: #4b7272,
-    item-label-text-weight: 300,
-    item-label-text-color: white,
-  ));
+  @include mat.menu-overrides((container-shape: 12px,
+      item-leading-spacing: 30px,
+      item-trailing-spacing: 30px,
+      container-color: #264240,
+      item-hover-state-layer-color: #4b7272,
+      item-label-text-weight: 300,
+      item-label-text-color: white,
+    ));
 
-  @include mat.form-field-overrides((
-    outlined-focus-label-text-color: #33adb1,
-    outlined-focus-outline-color: #33adb1,
-    outlined-container-shape: 14px
-    
-  ));
+  @include mat.form-field-overrides((outlined-focus-label-text-color: #33adb1,
+      outlined-focus-outline-color: #33adb1,
+      outlined-container-shape: 14px));
 
-  @include mat.button-overrides((
-    filled-container-color: #D6A79F,
-    filled-label-text-color: black,
-    filled-container-shape: var(--mat-sys-corner-full),
-  ));
+  @include mat.button-overrides((filled-container-color: #D6A79F,
+      filled-label-text-color: black,
+      filled-container-shape: var(--mat-sys-corner-full),
+    ));
 
-  @include mat.snack-bar-overrides((
-    button-color: rgb(53, 187, 192),
-    container-color: white,
-    supporting-text-color: black,
-  ));
+  @include mat.snack-bar-overrides((button-color: rgb(53, 187, 192),
+      container-color: white,
+      supporting-text-color: black,
+    ));
 
 }
 
-.navbar-icon{
-  @include mat.icon-overrides((
-    color: white,
-  ));
+.navbar-icon {
+  @include mat.icon-overrides((color: white,
+    ));
 }
 
-.edit-profile-icon{
-  @include mat.icon-overrides((
-    color: rgb(53, 187, 192),
-  ));
+.edit-profile-icon {
+  @include mat.icon-overrides((color: rgb(53, 187, 192),
+    ));
 }
 
-.list-edit-profile{
+.list-edit-profile {
   display: flex !important;
   flex-direction: column;
   gap: 12px;
 
-  @include mat.list-overrides((
-    list-item-container-shape: 15px
-  ));
+  @include mat.list-overrides((list-item-container-shape: 15px));
 
 }
 
 .container-btn-action {
-    width: 100%;
+  width: 100%;
   display: flex;
 }
-.container-btn-action button{
-    width: 100%;
+
+.container-btn-action button {
+  width: 100%;
   justify-content: center;
 }
 
 .header-title h3 {
-    margin: 0;
-    font-size: 1.15rem;
-    font-weight: 600;
-    color: #1e293b;
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #1e293b;
 }
 
 .chart-wrapper {
-    position: relative;
-    width: 100%;
-    height: 320px;
-    max-width: 100%;
+  position: relative;
+  width: 100%;
+  height: 320px;
+  max-width: 100%;
 }
 
 // DASHBOARD CSS
 :host {
-    display: block;
-    width: 100%;
-    min-height: 100vh;
-    background-color: #f8fafc;
-    font-family: system-ui, -apple-system, sans-serif;
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f8fafc;
+  font-family: system-ui, -apple-system, sans-serif;
 }
 
 .dashboard-layout {
-    display: flex;
-    min-height: calc(100vh - 64px);
-    width: 100%;
+  display: flex;
+  min-height: calc(100vh - 64px);
+  width: 100%;
 }
 
 .dashboard-header h1 {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #0f172a;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a;
 }
 
 .dashboard-header p {
-    margin: 4px 0 0 0;
-    font-size: 0.875rem;
-    color: #64748b;
+  margin: 4px 0 0 0;
+  font-size: 0.875rem;
+  color: #64748b;
 }
 
 .dashboard-header strong {
-    color: #2563eb;
+  color: #2563eb;
 }
 
 .dashboard-widgets {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-    width: 100%;
-    align-items: start;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  width: 100%;
+  align-items: start;
 }
 
 .sidebar {
-    width: 280px;
-    background-color: #ffffff;
-    border-right: 1px solid #e2e8f0;
-    padding: 24px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    flex-shrink: 0;
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.02);
+  width: 280px;
+  max-width: 100%;
+  box-sizing: border-box;
+
+  background-color: #ffffff;
+  border-right: 1px solid #e2e8f0;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex-shrink: 0;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.02);
+
+  height: auto;
+  align-self: stretch;
 }
 
 .sidebar-header h2 {
-    font-size: 17.6px;
-    font-weight: 700;
-    color: #0f172a;
-    margin-bottom: 16px;
-    padding-bottom: 8px;
-    border-bottom: 2px solid #f1f5f9;
+  font-size: 17.6px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #f1f5f9;
 }
 
 .sidebar-header p {
-    margin: 4px 0 0 0;
-    font-size: 12px;
-    color: #64748b;
+  margin: 4px 0 0 0;
+  font-size: 12px;
+  color: #64748b;
 }
 
 .main-content {
-    flex: 1;
-    padding: 32px;
-    overflow-y: auto;
+  flex: 1;
+  padding: 32px;
+  overflow-y: auto;
 }
 
 .filter-group {
-    margin-bottom: 13.6px;
+  margin-bottom: 13.6px;
 }
 
 .filter-title {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    color: #475569;
-    margin-bottom: 4px;
-    line-height: 1.2;
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 4px;
+  line-height: 1.2;
 }
 
 .fields-row {
-    display: flex;
-    gap: 8px;
+  display: flex;
+  gap: 8px;
 }
 
 .compact-field {
-    width: 100%;
-    font-size: 12.8px;
+  width: 100%;
+  font-size: 12.8px;
 }
 
 .dashboard-grid {
-    column-count: 2;
-    column-gap: 24px;
-    width: 100%;
+  column-count: 2;
+  column-gap: 24px;
+  width: 100%;
 }
 
 .dashboard-card {
-    break-inside: avoid;
-    margin-bottom: 24px;
-    display: inline-block;
-    width: 100%;
+  break-inside: avoid;
+  margin-bottom: 24px;
+  display: inline-block;
+  width: 100%;
 
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 16px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 
-    position: relative;
-    min-width: 0;
-    box-sizing: border-box;
-    overflow: hidden;
+  position: relative;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow: hidden;
 }

@@ -1,0 +1,29 @@
+.spacer {
+    flex: 1;
+}
+
+.nav-container {
+    display: flex;
+    gap: 15px;
+
+    flex: 1; 
+    justify-content: space-between; 
+    width: 100%;
+    min-width: 0; 
+
+    a[mat-button] {
+        color: black;
+        background-color: #e9d1cc;
+        font-family: 'Rubik', sans-serif
+    }
+
+}
+
+.active {
+    background-color: #d6ada6 !important;
+    color: black !important;
+}
+
+mat-icon {
+    transform: scale(1.6);
+}

@@ -1,6 +1,6 @@
 import { Service, signal, inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { PmiApiResponse, DeprivationsItem, WidgetItem } from '../../../interfaces/ipm.interface';
+import { PmiApiResponse, DeprivationsItem, WidgetItem, IncidencePersonItem } from '../../../interfaces/ipm.interface';
 import { environment } from '../../../../environments/environment.development';
 import { isPlatformBrowser } from '@angular/common';
 import { MPHouseholdsDep } from '../../../pages/col-dept/widgets/mp-households-dep/mp-households-dep';
@@ -16,23 +16,27 @@ export class ColDeptService {
 
     ]);
 
-    private IPM_URL = `${environment.apiAddr}/api/users/ipm-by-domain`;
-    pmiData = signal<PmiApiResponse[]>([]);
+    private indidence_url = `${environment.apiAddr}/api/users/filtered/multi`;
+    data = signal<IncidencePersonItem[]>([]);
 
-    loadIpmData(year: number | string = 2012) {
+    loadIncidenceData(year: number, region: string) {
         if (!isPlatformBrowser(this.platformId)) return;
 
-        this.httpClient.get<PmiApiResponse[]>(this.IPM_URL).subscribe({
+        const payload = {
+            viewName: 'vw_incidence_by_household_head_sex',
+            filters: [
+                { columnName: 'anio', columnValue: String(year) },
+                { columnName: 'region', columnValue: region }
+            ]
+        };
+
+        this.httpClient.post<IncidencePersonItem[]>(this.indidence_url, payload).subscribe({
             next: (data) => {
                 if (!data || data.length === 0) return;
 
-                // Filtrar los dominios que pertenecen al año seleccionado
-                const filteredData = data.filter(
-                    (d) => Number(d.anio) === Number(year)
-                );
-
-                this.pmiData.set(filteredData);
+                this.data.set(data);
             },
+
             error: (err) => console.error('Error al cargar datos IPM:', err),
         });
     }

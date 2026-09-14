@@ -17,7 +17,7 @@ export class MPHouseholdsDep {
   chartElement = viewChild<ElementRef<HTMLCanvasElement>>('Chart');
   private chartInstance?: Chart;
 
-  data = computed(() => this.dashboardService.pmiData());
+  data = this.dashboardService.data;
 
   constructor() {
     effect(() => {
@@ -41,8 +41,8 @@ export class MPHouseholdsDep {
 
   private initChart(canvas: HTMLCanvasElement) {
     const items = this.data();
-    const labels = items.map((item) => item.dominio);
-    const values: number[] = items.map((item) => Number(item.ipm));
+    const labels = items.map((item) => item.departamento);
+    const values: number[] = items.map((item) => Number(item.region));
 
     this.chartInstance = new Chart(canvas, {
       type: 'bar',

@@ -63,9 +63,13 @@ export class Login {
     this.authService.login(email, password).subscribe({
       next: () => this.router.navigate(['/map-viewer']),
       error: (err) => {
+        const errorCode = err.error?.code;
         console.error('Error al iniciar sesión', err);
-
-        if (err.status === 401 || err.status === 400) {
+        
+        // Mensajes de error
+        if (errorCode === 'EMAIL_NOT_VERIFIED') {
+          this.errorMessage.set('Tu correo no ha sido verificado. Revisa tu bandeja de entrada');
+        } else if (err.status === 401 || err.status === 400) {
           this.errorMessage.set('Correo o contraseña incorrectos');
         } else {
           this.errorMessage.set('Ocurrió un error en el servidor. Intenta nuevamente');

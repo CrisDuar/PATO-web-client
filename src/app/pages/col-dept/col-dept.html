@@ -5,6 +5,12 @@
     <!-- BARRA LATERAL IZQUIERDA -->
     <aside class="sidebar">
         <div class="sidebar-header">
+            <h2>Paneles</h2>
+        </div>
+        
+        <app-navbar-dashboard></app-navbar-dashboard><br>
+
+        <div class="sidebar-header">
             <h2>Filtros</h2>
         </div>
 
@@ -14,7 +20,7 @@
             <div class="fields-row">
                 <mat-form-field appearance="outline" class="compact-field">
                     <mat-label>Año</mat-label>
-                    <mat-select [(value)]="selectedYear">
+                    <mat-select [(value)]="year">
                         @for (year of years(); track year) {
                         <mat-option [value]="year">{{ year }}</mat-option>
                         }
@@ -22,7 +28,7 @@
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="compact-field">
                     <mat-label>Región</mat-label>
-                    <mat-select [(value)]="selectedRegion">
+                    <mat-select [(value)]="region">
                         @for (region of regions(); track region) {
                         <mat-option [value]="region">{{ region }}</mat-option>
                         }
@@ -32,7 +38,7 @@
 
             <mat-form-field appearance="outline" class="compact-field">
                     <mat-label>Departamento</mat-label>
-                    <mat-select [(value)]="selectedDept">
+                    <mat-select [(value)]="dept">
                         @for (dept of depts(); track dept) {
                         <mat-option [value]="dept">{{ dept }}</mat-option>
                         }

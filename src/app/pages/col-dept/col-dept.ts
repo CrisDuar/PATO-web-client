@@ -6,10 +6,11 @@ import { isPlatformBrowser } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ColDeptService } from '../../core/services/dashboard-services/col-dept.service';
+import { NavbarDashboard } from '../../components/navbar-dashboard/navbar-dashboard';
 
 @Component({
   selector: 'app-col-dept',
-  imports: [Navbar, NgComponentOutlet, MatSelectModule, MatFormFieldModule],
+  imports: [Navbar, NavbarDashboard, NgComponentOutlet, MatSelectModule, MatFormFieldModule],
   templateUrl: './col-dept.html',
   styleUrl: './col-dept.css',
 })
@@ -45,10 +46,18 @@ export class ColDept {
     ]
   );
 
-  selectedYear = signal<number>(2010);
-  selectedRegion = signal<string>('Orinoquía');
-  selectedDept = signal<string>('Arauca');
+  year = signal<number>(2010);
+  region = signal<string>('Orinoquía');
+  dept = signal<string>('Arauca');
 
   constructor() {
+    effect(() => {
+      const year = this.year();
+      const region = this.region();
+      const dept= this.dept();
+
+      this.dashboardService.loadIncidenceData(year, region);
+
+    })
   }
 }

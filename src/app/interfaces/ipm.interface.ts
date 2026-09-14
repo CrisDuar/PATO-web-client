@@ -60,3 +60,9 @@ export interface PopulationPovertyItem {
     grupo_erario: string;
     valor_porcentaje: number;
 }
+
+export interface IncidencePersonItem {
+    anio: number;
+    region: string;
+    departamento: string;
+}
