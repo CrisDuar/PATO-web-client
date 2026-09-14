@@ -123,7 +123,6 @@ export class Registry {
     const pass = this.newPassword.value;
     const confirmPass = this.confirmPassword.value;
 
-
     this.registryService.registry(username, email, pass, confirmPass).subscribe({
       next: () => {
         // Bocadillo de usuario actualizada con éxito

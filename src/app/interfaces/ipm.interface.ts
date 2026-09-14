@@ -50,10 +50,27 @@ export interface MpiBossSexItem {
 
 // Dashboard 2
 
-export interface IncidencePersonItem {
+export interface IndicatorDeptItem {
     anio: number;
     region: string;
     departamento: string;
+    personas_que_habitan_ese_hogar: number;
+    privacion_bajo_logro_educativo: number;
+    privacion_analfabetismo: number;
+    privacion_inasistencia_escolar: number;
+    privacion_rezago_escolar: number;
+    privacion_atencion_integral_primera_infancia: number;
+    privacion_trabajo_infantil: number;
+    pprivacion_no_aseguramiento_salud: number;
+    privacion_barreras_acceso_salud: number;
+    privacion_desempleo_larga_duracion: number;
+    privacion_tasa_empleo_formal: number;
+    privacion_no_acceso_agua_mejorada: number;
+    privacion_inadecuado_material_piso: number;
+    privacion_inadecuado_material_paredes: number;
+    privacion_hacinamiento_critico: number;
+    ipm: number;
+    pobre: number;
 }
 
 // Dashboard 3
