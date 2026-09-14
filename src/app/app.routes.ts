@@ -20,18 +20,6 @@ export const routes: Routes = [
 
   // Rutas públicas / de autenticación
   { path: 'login', component: Login, canActivate: [authenticatedGuard] },
-  { path: 'register', component: Registry, canActivate: [authenticatedGuard] },
-  { path: 'accountRecovery', component: FindAccount, canActivate: [authenticatedGuard] },
-  { path: 'verify-email', component: VerifyEmail, canActivate: [authenticatedGuard] },
-  { path: 'reset-password', component: ResetPassword, canActivate: [authenticatedGuard] },
-
-  // Rutas protegidas por authGuard
-  { path: 'col', component: ColNational, canActivate: [authGuard] },
-  { path: 'col-dept', component: ColDept, canActivate: [authGuard] },
-  { path: 'latin', component: LatinAmerica, canActivate: [authGuard] },
-  { path: 'map-viewer', component: MapViewer, canActivate: [authGuard] },
-  { path: 'chat-bot', component: ChatBOT, canActivate: [authGuard] },
-  { path: 'prediction-viewer', component: PredictionViewer, canActivate: [authGuard] },
 
   // Ruta comodín
   { path: '**', redirectTo: 'login' }
