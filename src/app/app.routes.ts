@@ -28,6 +28,9 @@ export const routes: Routes = [
   {path: 'prediction-viewer', component: PredictionViewer, canActivate: [authGuard]},
   {path: 'verify-email', component: VerifyEmail, canActivate: [authenticatedGuard]},
   {path: 'reset-password', component: ResetPassword, canActivate: [authenticatedGuard]},
+
+  // Ruta comodín
+  { path: '**', redirectTo: 'login' }
   
 ];
 
