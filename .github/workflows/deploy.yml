@@ -33,4 +33,6 @@ jobs:
           npm run build
             
       - name: Deploy to Nginx
-        run: cp -r -f dist/PATO-web-client/browser/* /host/
+        run: |
+            rm -rf /host/*
+            cp -r -f dist/PATO-web-client/browser/* /host/
