@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { OtpInput } from '../../components/otp-input/otp-input';
@@ -22,23 +22,24 @@ type ViewMode = 'token' | 'reset-password';
 @Component({
   selector: 'app-reset-password',
   imports: [
-    CommonModule, 
-    FormsModule, 
-    OtpInput, 
-    MatCardModule, 
-    MatButtonModule, 
-    MatActionList, 
-    ReactiveFormsModule, 
-    MatFormFieldModule, 
+    CommonModule,
+    FormsModule,
+    OtpInput,
+    MatCardModule,
+    MatButtonModule,
+    MatActionList,
+    ReactiveFormsModule,
+    MatFormFieldModule,
     MatInputModule,
-    MatIconModule ],
+    MatIconModule],
   templateUrl: './reset-password.html',
   styleUrl: './reset-password.css',
 })
 export class ResetPassword {
   private snackBar = inject(MatSnackBar);
-  private recoveryService = inject(AccountRecoveryService); 
+  private recoveryService = inject(AccountRecoveryService);
   private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
 
   otpCode = signal('');
   errorMessage = signal('');
@@ -52,9 +53,9 @@ export class ResetPassword {
     ]
   });
 
-  readonly confirmPassword = new FormControl('', { 
-    nonNullable: true, 
-    validators: [Validators.required] 
+  readonly confirmPassword = new FormControl('', {
+    nonNullable: true,
+    validators: [Validators.required]
   });
 
   constructor() {
@@ -65,8 +66,6 @@ export class ResetPassword {
 
   onVerifyToken(): void {
     const token = this.otpCode();
-    const pass = this.newPassword.value;
-    const confirm = this.confirmPassword.value;
 
     this.errorMessage.set('');
 
@@ -74,6 +73,29 @@ export class ResetPassword {
       this.errorMessage.set('El código debe tener 6 dígitos');
       return;
     }
+
+    this.recoveryService.verifyToken(token).subscribe({
+      next: (response: any) => {
+        if (response.reset_token) {
+          localStorage.setItem('reset_token', response.reset_token);
+        }
+
+        this.setView('reset-password');
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        const msg = err.error?.message || 'El código es incorrecto o las contraseñas no son válidas';
+        this.errorMessage.set(msg);
+      }
+    });
+  }
+
+  onResetPass(): void {
+    const token = localStorage.getItem('reset_token') || '';
+    const pass = this.newPassword.value;
+    const confirm = this.confirmPassword.value;
+
+    this.errorMessage.set('');
 
     if (this.newPassword.invalid || this.confirmPassword.invalid) {
       this.updateErrorMessage();
@@ -85,8 +107,9 @@ export class ResetPassword {
       return;
     }
 
-    this.recoveryService.verifyToken(token, pass, confirm).subscribe({
+    this.recoveryService.newPassword(token, pass, confirm).subscribe({
       next: () => {
+        localStorage.removeItem('reset_token');
         this.snackBar.open('¡Contraseña restablecida con éxito!', 'Cerrar', {
           duration: 3000,
           verticalPosition: 'bottom',
@@ -99,6 +122,7 @@ export class ResetPassword {
       }
     });
   }
+
 
   updateErrorMessage(): void {
     if (this.newPassword.hasError('required')) {

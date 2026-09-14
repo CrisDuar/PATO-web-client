@@ -21,9 +21,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
                 }
             });
             return next(authReq);
-        }else{
-            router.navigate(['/login']);
-            return EMPTY;
         }
     }
 

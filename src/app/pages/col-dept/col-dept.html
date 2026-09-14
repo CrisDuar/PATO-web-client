@@ -21,7 +21,7 @@
                 <mat-form-field appearance="outline" class="compact-field">
                     <mat-label>Año</mat-label>
                     <mat-select [(value)]="year">
-                        @for (year of years(); track year) {
+                        @for (year of dashboardService.indicatorsDeptYears(); track year) {
                         <mat-option [value]="year">{{ year }}</mat-option>
                         }
                     </mat-select>
@@ -29,7 +29,7 @@
                 <mat-form-field appearance="outline" class="compact-field">
                     <mat-label>Región</mat-label>
                     <mat-select [(value)]="region">
-                        @for (region of regions(); track region) {
+                        @for (region of dashboardService.indicatorsDeptRegions(); track region) {
                         <mat-option [value]="region">{{ region }}</mat-option>
                         }
                     </mat-select>
@@ -39,7 +39,7 @@
             <mat-form-field appearance="outline" class="compact-field">
                     <mat-label>Departamento</mat-label>
                     <mat-select [(value)]="dept">
-                        @for (dept of depts(); track dept) {
+                        @for (dept of dashboardService.indicatorsDeptDepts(); track dept) {
                         <mat-option [value]="dept">{{ dept }}</mat-option>
                         }
                     </mat-select>

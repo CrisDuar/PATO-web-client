@@ -17,37 +17,8 @@ import { NavbarDashboard } from '../../components/navbar-dashboard/navbar-dashbo
 export class ColDept {
   public dashboardService = inject(ColDeptService);
 
-  years = signal<number[]>([2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-    2019, 2020, 2021, 2022, 2023, 2024, 2025]);
-  areas = signal<string[]>(
-    ['Nacional',
-      'Rural',
-
-    ]
-  );
-
-  regions = signal<string[]>(
-    ['Andina',
-      'Caribe',
-      'Pacífica',
-      'Orinoquía',
-      'Amazonia',
-      'Insular',
-    ]
-  );
-
-  depts = signal<string[]>(
-    ['Amazonias',
-      'Antioquia',
-      'Arauca',
-      'Atlántico',
-      'Bolivar',
-      'Boyacá',
-    ]
-  );
-
-  year = signal<number>(2010);
-  region = signal<string>('Orinoquía');
+  year = signal<number>(2023);
+  region = signal<string>('Caribe');
   dept = signal<string>('Arauca');
 
   constructor() {
@@ -56,7 +27,7 @@ export class ColDept {
       const region = this.region();
       const dept= this.dept();
 
-      this.dashboardService.loadIncidenceData(year, region);
+      this.dashboardService.loadNationalPovertyData(year, region, dept);
 
     })
   }
