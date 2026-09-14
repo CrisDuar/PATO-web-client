@@ -2,22 +2,22 @@ import { Component, inject, computed, input, effect, PLATFORM_ID, viewChild, Ele
 import { isPlatformBrowser } from '@angular/common';
 import { Chart } from 'chart.js';
 import { LatinAmericaService } from '../../../../core/services/dashboard-services/latin-america.service';
-import { NationalPovertyItem } from '../../../../interfaces/ipm.interface';
+import { PovertyByAgeItem } from '../../../../interfaces/ipm.interface';
 
 @Component({
-  selector: 'app-population-poverty',
+  selector: 'app-poverty-by-age',
   imports: [],
-  templateUrl: './population-poverty.html',
-  styleUrl: './population-poverty.css',
+  templateUrl: './poverty-by-age.html',
+  styleUrl: './poverty-by-age.css',
 })
-export class PopulationPoverty {
+export class PovertyByAge {
   private dashboardService = inject(LatinAmericaService);
   private platformId = inject(PLATFORM_ID);
 
   chartElement = viewChild<ElementRef<HTMLCanvasElement>>('Chart');
   private chartInstance?: Chart;
 
-  populationData = this.dashboardService.nationalPovertyData;
+  populationData = this.dashboardService.povertyData;
 
   constructor() {
     effect(() => {
@@ -41,7 +41,7 @@ export class PopulationPoverty {
 
   private initChart(canvas: HTMLCanvasElement) {
     const items = this.populationData();
-    const labels = items.map((item) => item.tipo_medida_pm);
+    const labels = items.map((item) => item.grupo_erario);
     const values: number[] = items.map((item) => Number(item.valor_porcentaje));
 
     this.chartInstance = new Chart(canvas, {
@@ -71,20 +71,20 @@ export class PopulationPoverty {
         scales: {
           y: {
             beginAtZero: true,
-            title: { display: true, text: 'Población en situación de pobreza (%)' },
+            title: { display: true, text: 'IPM (%)' },
           },
-          x: { title: { display: true, text: 'Tipo de IPM' } }
+          x: { title: { display: true, text: 'Dominios' } }
         }
       }
     });
 
   }
 
-  private updateChartData(items: NationalPovertyItem[]) {
+  private updateChartData(items: PovertyByAgeItem[]) {
     if (!this.chartInstance) return;
 
     // Extraer nombres de dominios para los Labels
-    const labels = items.map(item => item.tipo_medida_pm);
+    const labels = items.map(item => item.grupo_erario);
 
     // Extraer valores del IPM para las Barras
     const dataValues = items.map(item => Number(item.valor_porcentaje));
@@ -95,4 +95,3 @@ export class PopulationPoverty {
     this.chartInstance.update();
   }
 }
-  

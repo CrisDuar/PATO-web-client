@@ -7,49 +7,24 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ColNationalService } from '../../core/services/dashboard-services/col-national.service';
 import { NavbarDashboard } from '../../components/navbar-dashboard/navbar-dashboard';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-col-national',
-  imports: [Navbar, NavbarDashboard, NgComponentOutlet, MatSelectModule, MatFormFieldModule],
+  imports: [FormsModule, Navbar, NavbarDashboard, NgComponentOutlet, MatSelectModule, MatFormFieldModule],
   templateUrl: './col-national.html',
   styleUrl: './col-national.css',
 })
 export class ColNational {
   public dashboardService = inject(ColNationalService);
 
-  availableYears = signal<number[]>([2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 
-    2019, 2020, 2021, 2022, 2023, 2024, 2025]);
-    
-  availableDomains = signal<string[]>(
-    ['Nacional',
-      'Cabeceras',
-      'Centros poblados y rural disperso', 
-
-    ]
-  );
-
-  availableDomains2 = signal<string[]>(
-    ['Valle del Cauca',
-      'Pacífica (sin incluir Valle del Cauca)',
-      'Antioquia', 
-      'Caribe',
-      'Bogotá',
-      'Oriental',
-      'Central',
-      'Orinoquia',
-      'Orinoquía - Amazonia',
-      'Bogotá (Cabecera)',
-      'Pacífica',
-    ]
-  );
-
-  year = signal<number>(2010);
-  year2 = signal<number>(2010);
-  year3 = signal<number>(2010);
-  year4 = signal<number>(2010);
+  year = signal<number>(2024);
+  year2 = signal<number>(2025);
+  year3 = signal<number>(2025);
+  year4 = signal<number>(2025);
   domain = signal<string>('Nacional');
-  domain2 = signal<string>('Valle del Cauca');
+  domain2 = signal<string>('Oriental');
   domain3 = signal<string>('Caribe');
   domain4 = signal<string>('Bogotá');
 

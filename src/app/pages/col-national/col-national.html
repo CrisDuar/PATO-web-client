@@ -19,8 +19,8 @@
             <br>
             <mat-form-field appearance="outline" class="compact-field">
                 <mat-label>Año</mat-label>
-                <mat-select [(value)]="year">
-                    @for (year of availableYears(); track year) {
+                <mat-select [(ngModel)]="year">
+                    @for (year of dashboardService.pmiYears(); track year) {
                     <mat-option [value]="year">{{ year }}</mat-option>
                     }
                 </mat-select>
@@ -32,8 +32,8 @@
             <br>
             <mat-form-field appearance="outline" class="compact-field">
                 <mat-label>Año</mat-label>
-                <mat-select [(value)]="year2">
-                    @for (year of availableYears(); track year) {
+                <mat-select [(ngModel)]="year2">
+                    @for (year of dashboardService.intensityYears(); track year) {
                     <mat-option [value]="year">{{ year }}</mat-option>
                     }
                 </mat-select>
@@ -46,8 +46,8 @@
             <div class="fields-row">
                 <mat-form-field appearance="outline" class="compact-field">
                     <mat-label>Año</mat-label>
-                    <mat-select [(value)]="year3">
-                        @for (year of availableYears(); track year) {
+                    <mat-select [(ngModel)]="year3">
+                        @for (year of dashboardService.deprivationYears(); track year) {
                         <mat-option [value]="year">{{ year }}</mat-option>
                         }
                     </mat-select>
@@ -55,8 +55,8 @@
 
                 <mat-form-field appearance="outline" class="compact-field">
                     <mat-label>Dominio</mat-label>
-                    <mat-select [(value)]="domain">
-                        @for (domain of availableDomains(); track domain) {
+                    <mat-select [(ngModel)]="domain">
+                        @for (domain of dashboardService.deprivationDomains(); track domain) {
                         <mat-option [value]="domain">{{ domain }}</mat-option>
                         }
                     </mat-select>
@@ -70,8 +70,8 @@
             <div class="fields-row">
                 <mat-form-field appearance="outline" class="compact-field">
                     <mat-label>Año</mat-label>
-                    <mat-select [(value)]="year4">
-                        @for (year of availableYears(); track year) {
+                    <mat-select [(ngModel)]="year4">
+                        @for (year of dashboardService.constributionYears(); track year) {
                         <mat-option [value]="year">{{ year }}</mat-option>
                         }
                     </mat-select>
@@ -79,8 +79,8 @@
 
                 <mat-form-field appearance="outline" class="compact-field">
                     <mat-label>Dominio</mat-label>
-                    <mat-select [(value)]="domain2">
-                        @for (domain of availableDomains2(); track domain) {
+                    <mat-select [(ngModel)]="domain2">
+                        @for (domain of dashboardService.constributionDomains(); track domain) {
                         <mat-option [value]="domain">{{ domain }}</mat-option>
                         }
                     </mat-select>
@@ -93,8 +93,8 @@
             <br>
                 <mat-form-field appearance="outline" class="compact-field">
                     <mat-label>Dominio</mat-label>
-                    <mat-select [(value)]="domain3">
-                        @for (domain of availableDomains2(); track domain) {
+                    <mat-select [(ngModel)]="domain3">
+                        @for (domain of dashboardService.mpiSexDomains(); track domain) {
                         <mat-option [value]="domain">{{ domain }}</mat-option>
                         }
                     </mat-select>
@@ -106,8 +106,8 @@
             <br>
                 <mat-form-field appearance="outline" class="compact-field">
                     <mat-label>Dominio</mat-label>
-                    <mat-select [(value)]="domain4">
-                        @for (domain of availableDomains2(); track domain) {
+                    <mat-select [(ngModel)]="domain4">
+                        @for (domain of dashboardService.mpiBossDomains(); track domain) {
                         <mat-option [value]="domain">{{ domain }}</mat-option>
                         }
                     </mat-select>

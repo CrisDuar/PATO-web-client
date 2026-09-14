@@ -1,15 +1,17 @@
 import { Type } from '@angular/core';
 
-export interface PmiApiResponse {
-    anio: number;
-    dominio: string;
-    ipm: string;
-}
-
 export interface WidgetItem {
     id: number;
     label: string;
     content: Type<unknown>;
+}
+
+// Dashboard 1
+
+export interface PmiApiResponse {
+    anio: number;
+    dominio: string;
+    ipm: string;
 }
 
 export interface DeprivationsItem {
@@ -46,23 +48,35 @@ export interface MpiBossSexItem {
     porcentaje: string;
 }
 
-export interface ContributionPovertyItem {
-    anio: number;
-    privacion: string;
-    pais: string;
-    porcentaje: number;
-}
-
-export interface PopulationPovertyItem {
-    anio: number;
-    area_geografica: string;
-    pais: string;
-    grupo_erario: string;
-    valor_porcentaje: number;
-}
+// Dashboard 2
 
 export interface IncidencePersonItem {
     anio: number;
     region: string;
     departamento: string;
+}
+
+// Dashboard 3
+
+export interface ContributionPovertyItem {
+    anio: number;
+    privacion: string;
+    pais: string;
+    valor_porcentaje: number;
+}
+
+export interface NationalPovertyItem {
+    anio: number;
+    area_geografica: string;
+    pais: string;
+    tipo_medida_pm: string;
+    valor_porcentaje: number;
+}
+
+export interface PovertyByAgeItem {
+    anio: number;
+    area_geografica: string;
+    pais: string;
+    grupo_erario: string;
+    valor_porcentaje: number;
 }
