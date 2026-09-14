@@ -27,6 +27,7 @@ export class ColNationalService {
 
     private IPM_URL = `${environment.apiAddr}/api/users/ipm-by-domain`;
     pmiData = signal<PmiApiResponse[]>([]);
+    pmiYears = signal<number[]>([]);
 
     loadIpmData(year: number | string = 2012) {
         if (!isPlatformBrowser(this.platformId)) return;
@@ -35,7 +36,11 @@ export class ColNationalService {
             next: (data) => {
                 if (!data || data.length === 0) return;
 
-                // Filtrar los dominios que pertenecen al año seleccionado
+                // Extraer todos los años 
+                const years = [...new Set(data.map((d) => Number(d.anio)))].sort((a, b) => b - a);
+                this.pmiYears.set(years);
+
+                // Filtrar los datos para el año que viene por parámetro
                 const filteredData = data.filter(
                     (d) => Number(d.anio) === Number(year)
                 );
@@ -44,10 +49,13 @@ export class ColNationalService {
             },
             error: (err) => console.error('Error al cargar datos IPM:', err),
         });
+
     }
 
     private DEPRIVATIONS_URL = `${environment.apiAddr}/api/users/deprivations-by-variable`;
     deprivationsData = signal<DeprivationsItem[]>([]);
+    deprivationYears = signal<number[]>([]);
+    deprivationDomains = signal<string[]>([]);
 
     loadPrivationsData(domain = 'Nacional', year: number | string = 2010) {
         if (!isPlatformBrowser(this.platformId)) return;
@@ -56,7 +64,19 @@ export class ColNationalService {
             next: (data) => {
                 if (!data || data.length === 0) return;
 
-                // Filtrar TODAS las variables para ese dominio y año
+                const years = [...new Set(data.map((d) => Number(d.anio)))].sort((a, b) => b - a);
+                this.deprivationYears.set(years);
+
+                const domainsForSelectedYear = [
+                    ...new Set(
+                        data
+                            .filter((d) => Number(d.anio) === Number(year))
+                            .map((d) => d.dominio?.trim())
+                            .filter(Boolean) as string[]
+                    ),
+                ];
+                this.deprivationDomains.set(domainsForSelectedYear);
+
                 const filtered = data.filter(
                     (d) =>
                         d.dominio?.toLowerCase().trim() === String(domain).toLowerCase().trim() &&
@@ -72,6 +92,7 @@ export class ColNationalService {
 
     private INTENSITY_POVERTY_URL = `${environment.apiAddr}/api/users/average-deprivations`;
     intensityPovertyData = signal<IntensityPovertyItem[]>([]);
+    intensityYears = signal<number[]>([]);
 
     loadIntensityPovertyData(year: number | string = 2012) {
         if (!isPlatformBrowser(this.platformId)) return;
@@ -80,7 +101,11 @@ export class ColNationalService {
             next: (data) => {
                 if (!data || data.length === 0) return;
 
-                // Filtrar los dominios que pertenecen al año seleccionado
+                // Extraer todos los años 
+                const years = [...new Set(data.map((d) => Number(d.anio)))].sort((a, b) => b - a);
+                this.intensityYears.set(years);
+
+                // Filtrar los datos para el año que viene por parámetro
                 const filteredData = data.filter(
                     (d) => Number(d.anio) === Number(year)
                 );
@@ -94,6 +119,8 @@ export class ColNationalService {
 
     contributionImpactData = signal<ContributionImpactItem[]>([]);
     private constribution_URL = `${environment.apiAddr}/api/users/dimension-contribution`;
+    constributionYears = signal<number[]>([]);
+    constributionDomains = signal<string[]>([]);
 
     loadContributionsImpact(domain: string, year: number | string) {
         if (!isPlatformBrowser(this.platformId)) return;
@@ -101,13 +128,30 @@ export class ColNationalService {
             next: (data) => {
                 if (!data || data.length === 0) return;
 
+                // Extraer todos los años
+                const years = [...new Set(data.map((d) => Number(d.anio)))].sort((a, b) => b - a);
+                this.constributionYears.set(years);
+
+                // Extraer los dominios únicos que pertenecen al año seleccionado
+                const domainsForSelectedYear = [
+                    ...new Set(
+                        data
+                            .filter((d) => Number(d.anio) === Number(year))
+                            .map((d) => d.dominio?.trim())
+                            .filter(Boolean) as string[]
+                    ),
+                ];
+                this.constributionDomains.set(domainsForSelectedYear);
+
+                // Filtrar los datos por año y dominio
                 const filteredData = data.filter(
                     (d) =>
-                        d.dominio?.toLowerCase().trim() === String(domain).toLowerCase().trim() &&
-                        Number(d.anio) === Number(year)
+                        Number(d.anio) === Number(year) &&
+                        d.dominio?.toLowerCase().trim() === String(domain).toLowerCase().trim()
                 );
 
-                this.contributionImpactData.set(filteredData);
+                // Si hay coincidencias se guarda la lista, si no, fallback a los primeros datos
+                this.contributionImpactData.set(filteredData.length > 0 ? filteredData : data);
             },
 
             error: (err) => console.error('Error al cargar contribuciones:', err),
@@ -117,6 +161,7 @@ export class ColNationalService {
 
     private mpi_sex_url = `${environment.apiAddr}/api/users/incidence-by-person-sex`;
     mpiSexData = signal<MpiSexItem[]>([]);
+    mpiSexDomains = signal<string[]>([]);
 
     loadIpmSexData(domain: string) {
         if (!isPlatformBrowser(this.platformId)) return;
@@ -125,13 +170,24 @@ export class ColNationalService {
             next: (data) => {
                 if (!data || data.length === 0) return;
 
-                // Filtrar los dominios que pertenecen al dominio seleccionado
+                // Extraer todos los dominios únicos 
+                const domains = [
+                    ...new Set(
+                        data
+                            .map((d) => d.dominio?.trim())
+                            .filter(Boolean) as string[]
+                    ),
+                ].sort();
+
+                this.mpiSexDomains.set(domains);
+
+                // Filtrar los datos correspondientes al dominio recibido por parámetro
                 const filteredData = data.filter(
-                    (d) =>
-                        d.dominio?.toLowerCase().trim() === String(domain).toLowerCase().trim()
+                    (d) => d.dominio?.toLowerCase().trim() === String(domain).toLowerCase().trim()
                 );
 
-                this.mpiSexData.set(filteredData);
+                // Si hay coincidencias se guarda la lista, si no, fallback a los primeros datos
+                this.mpiSexData.set(filteredData.length > 0 ? filteredData : data);
             },
             error: (err) => console.error('Error al cargar datos IPM:', err),
         });
@@ -139,6 +195,7 @@ export class ColNationalService {
 
     private mpi_boss_sex_url = `${environment.apiAddr}/api/users/incidence-by-household-head-sex`;
     mpiBossSexData = signal<MpiBossSexItem[]>([]);
+    mpiBossDomains = signal<string[]>([]);
 
     loadIpmBossSexData(domain: string) {
         if (!isPlatformBrowser(this.platformId)) return;
@@ -147,13 +204,24 @@ export class ColNationalService {
             next: (data) => {
                 if (!data || data.length === 0) return;
 
-                // Filtrar los dominios que pertenecen al dominio seleccionado
+                // Extraer todos los dominios únicos 
+                const domains = [
+                    ...new Set(
+                        data
+                            .map((d) => d.dominio?.trim())
+                            .filter(Boolean) as string[]
+                    ),
+                ].sort();
+
+                this.mpiBossDomains.set(domains);
+
+                // Filtrar los datos correspondientes al dominio recibido por parámetro
                 const filteredData = data.filter(
-                    (d) =>
-                        d.dominio?.toLowerCase().trim() === String(domain).toLowerCase().trim()
+                    (d) => d.dominio?.toLowerCase().trim() === String(domain).toLowerCase().trim()
                 );
 
-                this.mpiBossSexData.set(filteredData);
+                // Si hay coincidencias se guarda la lista, si no, fallback a los primeros datos
+                this.mpiBossSexData.set(filteredData.length > 0 ? filteredData : data);
             },
             error: (err) => console.error('Error al cargar datos IPM:', err),
         });
