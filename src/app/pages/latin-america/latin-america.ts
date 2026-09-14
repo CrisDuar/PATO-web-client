@@ -6,10 +6,11 @@ import { isPlatformBrowser } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { LatinAmericaService } from '../../core/services/dashboard-services/latin-america.service';
+import { NavbarDashboard } from '../../components/navbar-dashboard/navbar-dashboard';
 
 @Component({
   selector: 'app-latin-america',
-  imports: [Navbar, NgComponentOutlet, MatSelectModule, MatFormFieldModule],
+  imports: [Navbar, NavbarDashboard, NgComponentOutlet, MatSelectModule, MatFormFieldModule],
   templateUrl: './latin-america.html',
   styleUrl: './latin-america.css',
 })

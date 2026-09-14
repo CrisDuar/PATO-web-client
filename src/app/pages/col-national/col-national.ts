@@ -6,11 +6,12 @@ import { isPlatformBrowser } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ColNationalService } from '../../core/services/dashboard-services/col-national.service';
+import { NavbarDashboard } from '../../components/navbar-dashboard/navbar-dashboard';
 
 
 @Component({
   selector: 'app-col-national',
-  imports: [Navbar, NgComponentOutlet, MatSelectModule, MatFormFieldModule],
+  imports: [Navbar, NavbarDashboard, NgComponentOutlet, MatSelectModule, MatFormFieldModule],
   templateUrl: './col-national.html',
   styleUrl: './col-national.css',
 })
